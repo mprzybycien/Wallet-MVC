@@ -10,3 +10,73 @@ body {
     padding: 30px;
     border-style: solid;
 }
+
+h2 {
+    font-size: 5em;
+    text-align: center
+}
+h4 {
+    margin-left: 20px;
+}
+
+.addNew {
+  
+    width: 200px;
+    height: 200px;
+    padding: 20px;
+    /*border-style: solid;*/
+    margin-left: 20px;
+    margin-right: 10px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    background-color: #f8f9fa;
+    display: inline-block;
+    vertical-align: middle;
+    -webkit-transform: perspective(1px) translateZ(0);
+    transform: perspective(1px) translateZ(0);
+    box-shadow: 0 0 1px rgba(0, 0, 0, 0);
+    position: relative;
+    overflow: hidden;
+}
+.addNew:before {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    left: 0;
+    right: 100%;
+    bottom: 0;
+    background: red;
+    height: 7px;
+    -webkit-transition-property: right;
+    transition-property: right;
+    -webkit-transition-duration: 0.3s;
+    transition-duration: 0.3s;
+    -webkit-transition-timing-function: ease-out;
+    transition-timing-function: ease-out;
+}
+.addNew:hover:before, .addNew:focus:before, .addNew:active:before {
+    right: 0;
+}
+.addNew:hover {
+    cursor: pointer;
+}
+
+.addNew-income {    
+}
+.addNew-income:before {
+     background: #aad2af;  
+}
+
+.addNew-expense {   
+}
+.addNew-expense:before {
+     background: #ee9f96;  
+}
+
+.addNew-customize {   
+}
+.addNew-customize:before {
+     background: #c2dbfe;  
+}
+
+

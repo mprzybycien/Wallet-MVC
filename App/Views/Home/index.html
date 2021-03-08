@@ -3,14 +3,27 @@
 {% block title %}Home{% endblock %}
 
 {% block body %}
-<div class="welcome-container">
-    <h1>Welcome</h1>
-
     {% if current_user %}
-        Hello {{ current_user.name }}.
+        <div class="addNew addNew-income">
+            <h2>+</h2>
+            <h4>Add new income</h4>
+        </div>
+
+        <div class="addNew addNew-expense">
+            <h2>+</h2>
+            <h4>Add new expense</h4>
+        </div>
+
+        <div class="addNew addNew-customize">
+            <h2>+</h2>
+            <h4>Customize categories</h4>
+        </div>
+        
         
     {% else %}
+    <div class="welcome-container">
         <a href="/signup/new">Sing up</a> or <a href="/login">log in</a>
+    </div>
     {% endif %}
-</div>
+
 {% endblock %}
