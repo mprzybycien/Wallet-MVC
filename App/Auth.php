@@ -76,6 +76,14 @@ class Auth
             return static::loginFromRememberCookie();
         }
     }
+
+    public static function getUserTheme()
+    {
+        if (isset($_SESSION['ut'])) {
+            if($_SESSION['ut']) return true;
+            else return false;
+        } else return false;
+    }
     
     protected static function loginFromRememberCookie()
     {

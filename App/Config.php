@@ -52,20 +52,20 @@ class Config
      *
      * @var string
      */
-    const MAILGUN_API_KEY = "0cf7ca3e418fae52ce7579e794e2206a-e49cc42c-a52c5826";
+    const MAILGUN_API_KEY = "80ef39c59a21caf073d2dccf5e8207f8-29561299-83635468";
     
       /**
      * Mailgun API URL
      *
      * @var string
      */
-    const MAILGUN_API_URL = "https://api.mailgun.net/v3/sandbox7d0b9ab6926941aab436ad5e0a94dca8.mailgun.org";
+    const MAILGUN_API_URL = "https://api.mailgun.net/v3/sandboxf55f384e1ef74782a578a83987955db4.mailgun.org ";
 
     /**
      * Mailgun domain
      *
      * @var string
      */
-    const MAILGUN_DOMAIN = "sandbox7d0b9ab6926941aab436ad5e0a94dca8.mailgun.org";
+    const MAILGUN_DOMAIN = "sandboxf55f384e1ef74782a578a83987955db4.mailgun.org";
     
 }

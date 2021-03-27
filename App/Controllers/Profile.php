@@ -24,6 +24,10 @@ class Profile extends Authenticated
     
     public function showAction()
     {
+        /*
+        if (isset($_SESSION['user_theme'])) {
+            echo $_SESSION['user_theme'];
+        } */
         View::renderTemplate('Profile/show.html', [
             'user' => $this->user
             ]);
@@ -37,11 +41,11 @@ class Profile extends Authenticated
     }
     public function updateAction()
     {
-        
         if ( $this->user->updateProfile($_POST)) {
-           
+
             Flash::addMessage('Changes saved');
             $this->redirect('/profile/show');
+
         } else {
             View::renderTemplate('Profile/edit.html', [
                 'user' =>  $this->user

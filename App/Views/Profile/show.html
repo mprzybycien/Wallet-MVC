@@ -8,15 +8,14 @@
     <h1>Profile</h1>
 
     <dl class="row">
-        <dt class="col-sm-4">Name</dt>
+        <dt class="col-sm-4">name</dt>
         <dd class="col-sm-8">>{{ user.name }}</dd>
         <dt class="col-sm-4">email</dt>
         <dd class="col-sm-8">>{{ user.email }}</dd>
+        <dt class="col-sm-4">theme</dt>
+        <dd class="col-sm-8">>{% if user.theme == 0 %}Light{% else %}Dark{% endif %}</dd>
     </dl>
-
-    <a href=" /profile/edit"> Edit </a>
-
+    <button type="button" onclick="window.location.href='/profile/edit';"class="btn btn-primary">Edit</button>    
 </div>
-    
 
 {% endblock %}

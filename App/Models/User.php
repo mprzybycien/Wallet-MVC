@@ -131,8 +131,13 @@ class User extends \Core\Model
         
     public static function authenticate($email, $password)
     {
+        
         $user = static::findByEmail($email);
 
+        if(! $user->are_cat_loaded) {
+            static::addDefaults($user->id);
+        }
+        
         if ($user && $user->is_active) {
             if (password_verify($password, $user->password_hash)) {
                 return $user;
@@ -140,6 +145,15 @@ class User extends \Core\Model
         }
 
         return false;
+    }
+
+    public static function setRememberedTheme($email)
+    {
+        $user = static::findByEmail($email);
+        
+        if($user->theme == 1){
+            $_SESSION['ut'] = $user->theme;
+        }
     }
     
     public static function findByID($id)
@@ -324,6 +338,15 @@ public static function sendPasswordReset($email)
     
     public function updateProfile($data)
     {
+        if(isset($data['theme']))
+        {
+            $this->theme = 1;
+            $_SESSION['ut'] = true;
+
+        } else {
+            $this->theme = 0;
+            unset($_SESSION['ut']);
+        }
 
         
         $this->name = $data['name'];
@@ -338,6 +361,7 @@ public static function sendPasswordReset($email)
         if (empty($this->errors)) {
             $sql = 'UPDATE users
                     SET name = :name,
+                        theme = :theme,
                         email = :email';
             //if password isset
             if (isset($this->password)) {
@@ -353,6 +377,7 @@ public static function sendPasswordReset($email)
             
             $stmt->bindValue(':name', $this->name, PDO ::PARAM_STR);
             $stmt->bindValue(':email', $this->email, PDO::PARAM_STR);
+            $stmt->bindValue(':theme', $this->theme, PDO::PARAM_INT);
             $stmt->bindValue(':id', $this->id, PDO::PARAM_INT);
             
             if (isset($this->password)) {
@@ -367,5 +392,76 @@ public static function sendPasswordReset($email)
         return false;
     }
     
+    
+    public static function addDefaults($user_id)
+    {
+        static::addDefaultIncomes($user_id);
+        static::addDefaultExpenses($user_id);
+        static::addDefaultMethods($user_id);
+        static::catLoaded($user_id);
+          
+    }
+    
+    public static function addDefaultIncomes($user_id)
+    {
+        
+        $sql = 'INSERT INTO incomes_category_assigned_to_users (user_id, name)
+                SELECT users.id, incomes_category_default.name
+                FROM users, incomes_category_default
+                WHERE users.id = :id';
+        
+        $db = static::getDB();
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':id', $user_id, PDO::PARAM_INT);
+        
+        $stmt->execute(); 
+          
+    }
+    
+    public static function addDefaultExpenses($user_id)
+    {
+        
+        $sql = 'INSERT INTO expenses_category_assigned_to_users (user_id, name)
+                SELECT users.id, expenses_category_default.name
+                FROM users, expenses_category_default
+                WHERE users.id = :id';
+        
+        $db = static::getDB();
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':id', $user_id, PDO::PARAM_INT);
+        
+        $stmt->execute(); 
+          
+    }
+    
+    public static function addDefaultMethods($user_id)
+    {
+        
+        $sql = 'INSERT INTO payment_methods_assigned_to_users (user_id, name)
+                SELECT users.id, payment_methods_default.name
+                FROM users, payment_methods_default
+                WHERE users.id = :id';
+        
+        $db = static::getDB();
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':id', $user_id, PDO::PARAM_INT);
+        
+        $stmt->execute();   
+    }
+    
+    public static function catLoaded($user_id)
+    {
+        
+        $sql = 'UPDATE users
+                SET are_cat_loaded = 1
+                WHERE id = :user_id';
+
+        $db = static::getDB();
+        $stmt = $db->prepare($sql);
+
+        $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
+
+        $stmt->execute(); 
+    }
 }
 

@@ -25,7 +25,6 @@ class Signup extends \Core\Controller
     
     public function createAction()
     {
-        //echo "dupa";
         $user = new User($_POST);
         
         if ($user->save()){           

@@ -6,9 +6,9 @@ body {
     width: 400px;
     margin-left: auto;
     margin-right: auto;
-    margin-top: 200px;
+    margin-top: 100px;
     padding: 30px;
-    border-style: solid;
+    background-color: #f8f9fa;
 }
 
 h2 {
@@ -25,10 +25,8 @@ h4 {
     height: 200px;
     padding: 20px;
     /*border-style: solid;*/
-    margin-left: 20px;
-    margin-right: 10px;
-    margin-top: 20px;
-    margin-bottom: 10px;
+    margin-left: 10px;
+    margin-top: 10px;
     background-color: #f8f9fa;
     display: inline-block;
     vertical-align: middle;
@@ -78,5 +76,3 @@ h4 {
 .addNew-customize:before {
      background: #c2dbfe;  
 }
-
-
