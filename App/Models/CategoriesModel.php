@@ -10,7 +10,7 @@ use \Core\View;
  *
  * PHP version 7.0
  */
-class IncomeModel extends \Core\Model
+class CategoriesModel extends \Core\Model
 {
 
     public function __construct($data = [])
@@ -19,7 +19,49 @@ class IncomeModel extends \Core\Model
             $this->$key = $value;
         };
     }
+    
 
+    public static function getIncomeCategories()
+    {
+        
+        $sql = 'SELECT * FROM incomes_category_assigned_to_users WHERE user_id = :id';
+
+        $db = static::getDB();
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':id', $_SESSION['user_id'], PDO::PARAM_INT);
+
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+
+    public static function getExpenseCategories()
+    {
+        
+        $sql = 'SELECT * FROM expenses_category_assigned_to_users WHERE user_id = :id';
+
+        $db = static::getDB();
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':id', $_SESSION['user_id'], PDO::PARAM_INT);
+
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+
+    public static function getPaymentMethods()
+    {
+        $sql = 'SELECT * FROM payment_methods_assigned_to_users WHERE user_id = :id';
+
+        $db = static::getDB();
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':id', $_SESSION['user_id'], PDO::PARAM_INT);
+
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+/*
     public function save()
     {
 
@@ -65,12 +107,12 @@ class IncomeModel extends \Core\Model
     {
        // Amount
        if (filter_var($this->amount, FILTER_VALIDATE_FLOAT) === false) {
-           $this->errors[] = 'Amount must be floating point value';
+           $this->errors[] = 'Amount must be floating poin value';
        }
 
        if (strlen($this->comment) > 40) {
-            $this->errors[] = 'The comment cannot be longer than 40 characters';
+               $this->errors[] = 'The comment cannot be longer than 40 characters';
        }
     }
-    
+   */ 
 }

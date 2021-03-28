@@ -7,6 +7,8 @@ use \App\Auth;
 use \App\Flash;
 use \App\Models\User;
 use \App\Models\ExpenseModel;
+use \App\Models\ExpenseCatModel;
+use \App\Models\MethodCatModel;
 
 /**
  * Expense controller
@@ -27,8 +29,8 @@ class Expense extends Authenticated
     
     public function newAction()
     {
-        $arg['expenses'] = ExpenseModel::getExpenseCategories();
-        $arg['methods'] = ExpenseModel::getPaymentMethods();
+        $arg['expenses'] = ExpenseCatModel::getExpenseCategories();
+        $arg['methods'] = MethodCatModel::getPaymentMethods();
         View::renderTemplate('Expense/new.html', $arg);
     }
 
@@ -45,8 +47,8 @@ class Expense extends Authenticated
         Flash::addMessage('Expense has not been added', Flash::WARNING);
 
         $arg['expenseModel'] = $expenseModel;
-        $arg['expenses'] = ExpenseModel::getExpenseCategories();
-        $arg['methods'] = ExpenseModel::getPaymentMethods();
+        $arg['expenses'] = ExpenseCatModel::getExpenseCategories();
+        $arg['methods'] = MethodCatModel::getPaymentMethods();
         
         View::renderTemplate('Expense/new.html', $arg);  
         }

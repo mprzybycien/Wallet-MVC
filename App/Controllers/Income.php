@@ -7,6 +7,7 @@ use \App\Auth;
 use \App\Flash;
 use \App\Models\User;
 use \App\Models\IncomeModel;
+use \App\Models\IncomeCatModel;
 
 /**
  * Profile controller
@@ -24,10 +25,9 @@ class Income extends Authenticated
         
     }
     
-    
     public function newAction()
     {
-        $arg['incomes'] = IncomeModel::getIncomeCategories();
+        $arg['incomes'] = IncomeCatModel::getIncomeCategories();
         View::renderTemplate('Income/new.html', $arg);
     }
 
@@ -44,7 +44,7 @@ class Income extends Authenticated
         Flash::addMessage('Income has not been added', Flash::WARNING);
 
         $arg['incomeModel'] = $incomeModel;
-        $arg['incomes'] = IncomeModel::getIncomeCategories();
+        $arg['incomes'] = IncomeCatModel::getIncomeCategories();
         View::renderTemplate('Income/new.html', $arg);  
         }
     }

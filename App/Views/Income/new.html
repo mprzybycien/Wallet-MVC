@@ -25,21 +25,21 @@
     <form method="post" action="/income/create" id="formSignup">
 
         <div class="form-group">
-            <label for="inputName">Amount</label>
-            <input type="number" step="0.01" min="0.01" autofocus required class="form-control" name="amount" placeholder="Insert income amount" />
+            <label for="inputAmount">Amount</label>
+            <input id="inputAmount" type="number" step="0.01" min="0.01" autofocus required class="form-control" name="amount" placeholder="Insert income amount" />
         </div>
 
         <div class="form-group">
             <label for="inputCategory">Category</label>
-            <select type="category" name="category" required class="form-control">
+            <select id="inputCategory" name="category" required class="form-control">
                 {% for income in incomes %}
                 <option>{{ income.name }}</option>
                 {% endfor %}
             </select>
         </div>
         <div class="form-group">
-            <label for="inputEmail">Date</label>
-            <input type="date" value='{{ "now"|date("d/m/Y") }}' required class="form-control" name="date"/>
+            <label for="inputDate">Date</label>
+            <input id="inputDate" type="date" value='{{ "now"|date("d/m/Y") }}' required class="form-control" name="date"/>
         </div>
 
         <div class="form-group">
