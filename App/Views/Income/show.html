@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block title %}Show incomes{% endblock %}
+
+{% block footer %}
+
+{% endblock %}
+
+{% block body %}
+    <h1>Show incomes</h1>
+    {% if incomeModel.errors is not empty %}
+    <p> Errors:</p>
+    <ul>
+        {% for error in incomeModel.errors %}
+        <li> {{ error }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    
+    {% for income in incomes %}
+    <div class="addNew addNew-income" onclick="location.href='#';">
+        <div class="cell">
+        <dl class="dl-horizontal">
+            <dt class="col-sm-4">category</dt>
+            <dd class="col-sm-8">>{{ income.incomes_name }}</dd>
+            <dt class="col-sm-4">amount</dt>
+            <dd class="col-sm-8">>{{ income.amount }}</dd>
+            <dt class="col-sm-4">date</dt>
+            <dd class="col-sm-8">>{{ income.date_of_income }}</dd>
+            <dt class="col-sm-4">comment</dt>
+            <dd class="col-sm-8">>{{ income.income_comment }}</dd>
+        </dl>
+        </div>
+    </div> 
+	{% endfor %}
+
+{% endblock %}

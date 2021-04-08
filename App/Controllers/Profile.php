@@ -5,6 +5,7 @@ namespace App\Controllers;
 use \Core\View;
 use \App\Auth;
 use \App\Flash;
+use \App\Models\Currency;
 
 
 /**
@@ -24,10 +25,6 @@ class Profile extends Authenticated
     
     public function showAction()
     {
-        /*
-        if (isset($_SESSION['user_theme'])) {
-            echo $_SESSION['user_theme'];
-        } */
         View::renderTemplate('Profile/show.html', [
             'user' => $this->user
             ]);
@@ -35,10 +32,15 @@ class Profile extends Authenticated
     
     public function editAction()
     {
-        View::renderTemplate('Profile/edit.html', [
-            'user' => $this->user
-            ]);
+        $currency = new Currency();
+        $currency = $currency->getCurrencies();
+        
+        $arg['currencies'] =  $currency;
+        $arg['user'] =  $this->user;
+        
+        View::renderTemplate('Profile/edit.html', $arg);
     }
+
     public function updateAction()
     {
         if ( $this->user->updateProfile($_POST)) {

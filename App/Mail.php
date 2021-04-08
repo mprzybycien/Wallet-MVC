@@ -12,6 +12,7 @@ use Mailgun\Mailgun;
  *
  * PHP version 7.0
  */
+
 class Mail
 {
     public static function send($to, $subject, $text, $html)
@@ -30,3 +31,4 @@ class Mail
                     'html' => $html]);
     }
 }
+

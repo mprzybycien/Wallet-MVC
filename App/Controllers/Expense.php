@@ -30,7 +30,7 @@ class Expense extends Authenticated
     public function newAction()
     {
         $arg['expenses'] = ExpenseCatModel::getExpenseCategories();
-        $arg['methods'] = MethodCatModel::getPaymentMethods();
+        $arg['methods'] = MethodCatModel::getMethodCategories();
         View::renderTemplate('Expense/new.html', $arg);
     }
 

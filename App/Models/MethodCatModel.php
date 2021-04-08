@@ -69,8 +69,11 @@ class MethodCatModel extends \Core\Model
 
     public function delete()
     {   
-        $sql = 'DELETE FROM payment_methods_assigned_to_users 
-                WHERE id = :id';
+        $sql = 'DELETE payment_methods_assigned_to_users, expenses
+                FROM payment_methods_assigned_to_users
+                JOIN expenses 
+                WHERE payment_methods_assigned_to_users.id = :id 
+                AND expenses.payment_method_assigned_to_user_id = :id' ;
 
         $db = static::getDB();
         $stmt = $db->prepare($sql);

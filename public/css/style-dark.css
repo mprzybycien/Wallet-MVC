@@ -80,6 +80,26 @@ h4 {
      background: #00c5ff;  
 }
 
+.addNew-expense:before {
+     background: #ff0000;  
+}
+
+.cell {
+    font-size: 12px;
+}
+
+.containerCell-category {
+    width: 209px;
+    height: 30px;  
+}
+
+.containerCell-amount {
+    margin-top: 10px;
+    width: 209px;
+    height: 30px;  
+}
+
+
 .form-control {
     background-color: #212529; 
     color: white;
@@ -88,6 +108,12 @@ h4 {
 .form-control:focus {
     background-color: #212529; 
     color: white;
+}
+
+.card {
+    background-color: #212529; 
+    color: white;
+    border-color: white;
 }
 
 
@@ -110,6 +136,11 @@ h4 {
     color: white;
     border-radius: 0px;
     border: 0px;
+}
+
+input[type=radio] {
+    width: 20px;
+    height: 20px;
 }
 
 /*https://gist.github.com/evilmarty/3021338*/

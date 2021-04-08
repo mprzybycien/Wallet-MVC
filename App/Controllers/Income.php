@@ -48,4 +48,20 @@ class Income extends Authenticated
         View::renderTemplate('Income/new.html', $arg);  
         }
     }
+
+    public function setAction()
+    {
+        View::renderTemplate('Income/set.html');
+    }
+
+    public function showAction()
+    {
+        $incomeModel = new IncomeModel($_POST);
+        $incomesPeroid = $incomeModel-> getPeroid();
+        $incomes['incomes'] = $incomeModel->getIncomes($incomesPeroid);
+        //var_dump($incomes);
+        View::renderTemplate('Income/show.html', $incomes);
+        //var_dump($incomes);
+    }
+    
 }

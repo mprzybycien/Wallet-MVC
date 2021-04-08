@@ -69,8 +69,11 @@ class IncomeCatModel extends \Core\Model
 
     public function delete()
     {   
-        $sql = 'DELETE FROM incomes_category_assigned_to_users 
-                WHERE id = :id';
+        $sql = 'DELETE incomes_category_assigned_to_users, incomes
+                FROM incomes_category_assigned_to_users
+                JOIN incomes 
+                WHERE incomes_category_assigned_to_users.id = :id 
+                AND incomes.income_category_assigned_to_user_id = :id' ;
 
         $db = static::getDB();
         $stmt = $db->prepare($sql);

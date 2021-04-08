@@ -55,7 +55,8 @@ class ExpenseCat extends Authenticated
     public function editAction()
     {
         $expenseCatModel = new ExpenseCatModel($_POST);
-        $arg['cat'] = $expenseCatModel->findByID($_POST['catId']);
+        $_SESSION['current_category'] = $expenseCatModel->findByID($_POST['catId']);
+        $arg['cat'] = $_SESSION['current_category'];
         View::renderTemplate('ExpenseCat/edit.html', $arg);
     }
 
@@ -67,8 +68,9 @@ class ExpenseCat extends Authenticated
             $this->redirect('/ExpenseCat/show');
         } else {
             Flash::addMessage('Expense category has not been changed', Flash::WARNING);
-            View::renderTemplate('ExpenseCat/edit.html', ['expenseCatModel' => $expenseCatModel
-        ]); 
+            $arg['expenseCatModel'] =  $expenseCatModel;
+            $arg['cat'] = $_SESSION['current_category'];
+            View::renderTemplate('ExpenseCat/edit.html', $arg); 
         }
     } 
 
@@ -76,7 +78,7 @@ class ExpenseCat extends Authenticated
     {
         $expenseCatModel = new ExpenseCatModel($_POST);
         if ($expenseCatModel->delete()) {
-            Flash::addMessage('Expense category deleted');
+            Flash::addMessage('Expense category with all associated records deleted');
             $this->redirect('/ExpenseCat/show');
         } else {
             Flash::addMessage('Expense category has not been deleted', Flash::WARNING);

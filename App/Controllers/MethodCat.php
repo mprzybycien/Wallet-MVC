@@ -55,7 +55,8 @@ class MethodCat extends Authenticated
     public function editAction()
     {
         $methodCatModel = new MethodCatModel($_POST);
-        $arg['cat'] = $methodCatModel->findByID($_POST['catId']);
+        $_SESSION['current_category'] = $methodCatModel->findByID($_POST['catId']);
+        $arg['cat'] = $_SESSION['current_category'];
         View::renderTemplate('MethodCat/edit.html', $arg);
     }
 
@@ -67,8 +68,9 @@ class MethodCat extends Authenticated
             $this->redirect('/MethodCat/show');
         } else {
             Flash::addMessage('Payment method category has not been changed', Flash::WARNING);
-            View::renderTemplate('MethodCat/edit.html', ['methodCatModel' => $methodCatModel
-        ]); 
+            $arg['methodCatModel'] =  $methodCatModel;
+            $arg['cat'] = $_SESSION['current_category'];
+            View::renderTemplate('MethodCat/edit.html', $arg); 
         }
     } 
 
@@ -76,7 +78,7 @@ class MethodCat extends Authenticated
     {
         $methodCatModel = new MethodCatModel($_POST);
         if ($methodCatModel->delete()) {
-            Flash::addMessage('Payment method category deleted');
+            Flash::addMessage('Payment method with all associated records deleted');
             $this->redirect('/MethodCat/show');
         } else {
             Flash::addMessage('Payment method category has not been deleted', Flash::WARNING);

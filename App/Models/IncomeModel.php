@@ -72,5 +72,59 @@ class IncomeModel extends \Core\Model
             $this->errors[] = 'The comment cannot be longer than 40 characters';
        }
     }
-    
+
+    public function getPeroid()
+    {
+        if($this->peroid == 1) {
+            $dates['for'] = date('Y-m-00');
+            $dates['to'] = date("Y-m-t"); //last day of month
+            //$dates['to'] = date('Y-m-d');
+
+        } else if  ($this->peroid == 2) {
+            $dates['for'] = date("Y-m-d", strtotime("first day of previous month"));
+            $dates['to'] = date("Y-m-d", strtotime("last day of previous month"));
+
+        } else if ($this->peroid == 3) {
+
+            if($this->date1 > $this->date2){
+                $dates['for'] = $this->date2;
+                $dates['to'] = $this->date1;
+
+            } else {         
+                $dates['for'] = $this->date1;
+                $dates['to'] = $this->date2;
+            }
+        } 
+        return $dates;
+    }
+
+    public function getIncomes($incomesPeroid)
+    {
+
+        $sql = 'SELECT incomes_category_assigned_to_users.name AS incomes_name, 
+                incomes.id, 
+                incomes.amount, 
+                incomes.date_of_income, 
+                incomes.income_comment            
+        
+        FROM incomes, incomes_category_assigned_to_users 
+        WHERE incomes.user_id = :id 
+        AND incomes.income_category_assigned_to_user_id = incomes_category_assigned_to_users.id 
+        AND incomes.date_of_income >= :peroidFor
+        AND incomes.date_of_income <= :peroidTo
+
+        ORDER BY incomes.date_of_income DESC';
+
+
+
+        $db = static::getDB();
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':id', $_SESSION['user_id'], PDO::PARAM_INT);
+        $stmt->bindValue(':peroidFor', $incomesPeroid['for'], PDO::PARAM_STR);
+        $stmt->bindValue(':peroidTo', $incomesPeroid['to'], PDO::PARAM_STR);
+
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    }
 }

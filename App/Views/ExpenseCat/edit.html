@@ -16,10 +16,10 @@
     {% endif %}
     
     <form method="post" id="formProfile" action="/expenseCat/edited">
-      <input type="hidden" id="catId" name="id" value="{{ cat.id }}">
+      <input type="hidden" id="catId" name="id" value="{{ cat.id }}" >
       <div class="for-group">
           <label for="inputName">Name</label>
-          <input id="inputName" name="name" placeholder="Name" value="{{ cat.name }}" required class="form-control"/>
+          <input id="inputName" name="name" placeholder="Name" value="{{ cat.name }}" autofocus required class="form-control"/>
       </div><br />
 
       <button type="submit" class="btn btn-primary">Save</button>
@@ -27,11 +27,28 @@
       <button type="button" onclick="window.location.href='/expenseCat/show';" class="btn btn-secondary">Cancel</button>        
     </form>
     <br />or
-    
+    <!--
     <form method="post" action="/expenseCat/delete" id="formSignup">
         <input type="hidden" id="catId" name="catId" value="{{ cat.id }}">
     <br /><button type="submit" class="btn btn-danger">Delete category</button>
     </form>
+-->
+
+      <p>
+      <a class="btn btn-danger" data-bs-toggle="collapse" href="#collapse" role="button" aria-expanded="false" aria-controls="collapseExample">
+        Delete
+      </a>
+    </p>
+    <div class="collapse" id="collapse">
+      <div class="card card-body">
+        Removal of the category will remove all associated records. Are you sure?
+        <form method="post" action="/expenseCat/delete" id="formSignup">
+        <input type="hidden" id="catId" name="catId" value="{{ cat.id }}">
+        <br /><button type="submit" class="btn btn-danger">Yes, delete category</button>
+        <button type="button" onclick="window.location.href='/expenseCat/show';" class="btn btn-secondary">Cancel</button>   
+        </form>
+      </div>
+    </div>
 
 
 

@@ -69,8 +69,11 @@ class ExpenseCatModel extends \Core\Model
 
     public function delete()
     {   
-        $sql = 'DELETE FROM expenses_category_assigned_to_users 
-                WHERE id = :id';
+        $sql = 'DELETE expenses_category_assigned_to_users, expenses
+                FROM expenses_category_assigned_to_users
+                JOIN expenses 
+                WHERE expenses_category_assigned_to_users.id = :id 
+                AND expenses.expense_category_assigned_to_user_id = :id' ;
 
         $db = static::getDB();
         $stmt = $db->prepare($sql);

@@ -59,7 +59,7 @@ class Config
      *
      * @var string
      */
-    const MAILGUN_API_URL = "https://api.mailgun.net/v3/sandboxf55f384e1ef74782a578a83987955db4.mailgun.org ";
+    const MAILGUN_API_URL = "https://api.mailgun.net/v3/sandboxf55f384e1ef74782a578a83987955db4.mailgun.org";
 
     /**
      * Mailgun domain

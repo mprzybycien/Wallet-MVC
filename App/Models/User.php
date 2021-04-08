@@ -134,7 +134,7 @@ class User extends \Core\Model
         
         $user = static::findByEmail($email);
 
-        if(! $user->are_cat_loaded) {
+        if($user && !$user->are_cat_loaded) {
             static::addDefaults($user->id);
         }
         
@@ -351,17 +351,20 @@ public static function sendPasswordReset($email)
         
         $this->name = $data['name'];
         $this->email = $data['email'];
+        $this->currency = $data['currency'];
         
         if ($data['password'] != '') {
             $this->password = $data['password'];
         }
     
         $this->validate();
-        
+      
+
         if (empty($this->errors)) {
             $sql = 'UPDATE users
                     SET name = :name,
                         theme = :theme,
+                        currency = :currency,
                         email = :email';
             //if password isset
             if (isset($this->password)) {
@@ -375,9 +378,10 @@ public static function sendPasswordReset($email)
             $db = static::getDB();
             $stmt = $db->prepare($sql);
             
-            $stmt->bindValue(':name', $this->name, PDO ::PARAM_STR);
+            $stmt->bindValue(':name', $this->name, PDO::PARAM_STR);
             $stmt->bindValue(':email', $this->email, PDO::PARAM_STR);
             $stmt->bindValue(':theme', $this->theme, PDO::PARAM_INT);
+            $stmt->bindValue(':currency', $this->currency, PDO::PARAM_STR);
             $stmt->bindValue(':id', $this->id, PDO::PARAM_INT);
             
             if (isset($this->password)) {
@@ -386,6 +390,7 @@ public static function sendPasswordReset($email)
             $stmt->bindValue(':password_hash', $password_hash, PDO::PARAM_STR);
             
             }
+
             return $stmt->execute();
         }
         

@@ -55,7 +55,8 @@ class IncomeCat extends Authenticated
     public function editAction()
     {
         $incomeCatModel = new IncomeCatModel($_POST);
-        $arg['cat'] = $incomeCatModel->findByID($_POST['catId']);
+        $_SESSION['current_category'] = $incomeCatModel->findByID($_POST['catId']);
+        $arg['cat'] = $_SESSION['current_category'];
         View::renderTemplate('IncomeCat/edit.html', $arg);
     }
 
@@ -67,8 +68,12 @@ class IncomeCat extends Authenticated
             $this->redirect('/IncomeCat/show');
         } else {
             Flash::addMessage('Income category has not been changed', Flash::WARNING);
-            View::renderTemplate('IncomeCat/edit.html', ['incomeCatModel' => $incomeCatModel
-        ]); 
+            $arg['incomeCatModel'] =  $incomeCatModel;
+            $arg['cat'] = $_SESSION['current_category'];
+            View::renderTemplate('IncomeCat/edit.html', $arg);
+/*
+            View::renderTemplate('IncomeCat/show.html', ['incomeCatModel' => $incomeCatModel
+        ]); */
         }
     } 
 
@@ -76,7 +81,7 @@ class IncomeCat extends Authenticated
     {
         $incomeCatModel = new IncomeCatModel($_POST);
         if ($incomeCatModel->delete()) {
-            Flash::addMessage('Income category deleted');
+            Flash::addMessage('Income category with all associated records deleted');
             $this->redirect('/IncomeCat/show');
         } else {
             Flash::addMessage('Income category has not been deleted', Flash::WARNING);
