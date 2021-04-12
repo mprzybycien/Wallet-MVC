@@ -69,18 +69,39 @@ class IncomeCatModel extends \Core\Model
 
     public function delete()
     {   
-        $sql = 'DELETE incomes_category_assigned_to_users, incomes
+        if(static::isCatNameInIncomes($this->catId) > 0)
+        {
+            $sql = 'DELETE incomes_category_assigned_to_users, incomes
                 FROM incomes_category_assigned_to_users
                 JOIN incomes 
                 WHERE incomes_category_assigned_to_users.id = :id 
-                AND incomes.income_category_assigned_to_user_id = :id' ;
+                AND incomes.income_category_assigned_to_user_id = :id' ;   
+        } else {
+            $sql = 'DELETE incomes_category_assigned_to_users
+                FROM incomes_category_assigned_to_users
+                WHERE id = :id' ;
+        }
 
+        
         $db = static::getDB();
         $stmt = $db->prepare($sql);
         $stmt->bindValue(':id', $this->catId, PDO::PARAM_INT);
         $stmt->execute();
 
         return true;
+    }
+
+    public static function isCatNameInIncomes($catId)
+    {
+        $sql = 'SELECT * FROM incomes
+        WHERE income_category_assigned_to_user_id = :id';
+
+        $db = static::getDB();
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':id', $catId, PDO::PARAM_INT);
+        $stmt->execute();
+    
+        return $stmt->rowCount();
     }
     
     public function edit()

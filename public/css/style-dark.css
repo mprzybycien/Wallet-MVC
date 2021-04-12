@@ -1,6 +1,7 @@
 body {
     margin-top: ;
     background-color: #181818;
+    color: white;
 }
 
 .welcome-container {
@@ -25,7 +26,7 @@ h4 {
   
     width: 229px;
     height: 229px;
-    padding: 20px;
+    padding: 15px;
     /*border-style: solid;*/
     margin-left: 10px;
     margin-top: 10px;
@@ -38,6 +39,7 @@ h4 {
     box-shadow: 0 0 1px rgba(0, 0, 0, 0);
     position: relative;
     overflow: hidden;
+    text-align: center;
 }
 .addNew:before {
     content: "";
@@ -82,10 +84,6 @@ h4 {
 
 .addNew-expense:before {
      background: #ff0000;  
-}
-
-.cell {
-    font-size: 12px;
 }
 
 .containerCell-category {
@@ -141,6 +139,18 @@ h4 {
 input[type=radio] {
     width: 20px;
     height: 20px;
+}
+
+.cell {
+    text-align: left;
+    width: 189px;
+    height: 140px;
+}
+
+.cellBtn {
+    width: 189px;
+    height: 49px;
+    padding-left: 140px;
 }
 
 /*https://gist.github.com/evilmarty/3021338*/

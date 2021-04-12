@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Czas generowania: 07 Kwi 2021, 16:27
+-- Czas generowania: 08 Kwi 2021, 23:29
 -- Wersja serwera: 10.4.14-MariaDB
 -- Wersja PHP: 7.4.9
 
@@ -20,6 +20,32 @@ SET time_zone = "+00:00";
 --
 -- Baza danych: `wallet_mvc`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Struktura tabeli dla tabeli `currencies`
+--
+
+CREATE TABLE `currencies` (
+  `id` int(11) NOT NULL,
+  `name` varchar(5) COLLATE utf8_polish_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
+
+--
+-- Zrzut danych tabeli `currencies`
+--
+
+INSERT INTO `currencies` (`id`, `name`) VALUES
+(1, 'USD'),
+(2, 'EUR'),
+(3, 'PLN'),
+(4, 'GBP'),
+(5, 'CHF'),
+(6, 'NOK'),
+(7, 'SEK'),
+(8, 'BTC'),
+(9, 'ETH');
 
 -- --------------------------------------------------------
 
@@ -181,12 +207,19 @@ CREATE TABLE `users` (
   `activation_hash` varchar(64) COLLATE utf8_polish_ci DEFAULT NULL,
   `is_active` tinyint(1) NOT NULL DEFAULT 0,
   `are_cat_loaded` tinyint(1) NOT NULL DEFAULT 0,
-  `theme` tinyint(1) NOT NULL DEFAULT 0
+  `theme` tinyint(1) NOT NULL DEFAULT 0,
+  `currency` varchar(5) COLLATE utf8_polish_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
 
 --
 -- Indeksy dla zrzutów tabel
 --
+
+--
+-- Indeksy dla tabeli `currencies`
+--
+ALTER TABLE `currencies`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indeksy dla tabeli `expenses`
@@ -248,6 +281,12 @@ ALTER TABLE `users`
 --
 -- AUTO_INCREMENT for dumped tables
 --
+
+--
+-- AUTO_INCREMENT dla tabeli `currencies`
+--
+ALTER TABLE `currencies`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT dla tabeli `expenses`

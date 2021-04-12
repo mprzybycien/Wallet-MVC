@@ -14,24 +14,28 @@
     {% endif %}
         <div class="addNew addNew-income" onclick="location.href='/incomeCat/new';">
             <h2>+</h2>
-            <h4>Add new category</h4>
+            <h3>Add new category</h3>
         </div>
         {% for income in incomes %}
         <div class="addNew addNew-customize">
-            <h4>{{ income.name }}</h4>
-            <form method="post" action="/incomeCat/edit" id="formSignup">
-                 <input type="hidden" id="catId" name="catId" value="{{ income.id }}">
-                 <br /><button type="submit" class="btn btn-primary">Edit</button>
-            </form>
-           
+            <div class="cell">
+                <h5>{{ income.name }}</h5>
+            </div>               
+            <div class="cellBtn">
+                <form method="post" action="/incomeCat/edit" id="formSignup">
+                    <input type="hidden" id="catId" name="catId" value="{{ income.id }}">
+                    <button type="submit" class="btn btn-primary">Edit</button>
+                </form>
+           </div>
         </div>
-        {% endfor %}
         
+        {% endfor %}
+   <!--     
     {% else %}
     <div class="welcome-container" >
         <a href="/signup/new">Sing up</a> or <a href="/login">log in</a>
     </div>
 
     {% endif %}
-
+-->
 {% endblock %}

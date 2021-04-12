@@ -30,5 +30,15 @@ class Mail
                     'text'	=> $text,
                     'html' => $html]);
     }
+
+    public static function sender()
+    {
+        $from  = "From: wallet@mateuszprzybycien.pl \r\n";
+        $from .= 'MIME-Version: 1.0'."\r\n";
+        $from .= 'Content-type: text/html; charset=iso-8859-2'."\r\n";
+
+        return $from;
+    }
+
 }
 

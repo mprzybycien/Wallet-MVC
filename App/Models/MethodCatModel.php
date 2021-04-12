@@ -69,11 +69,19 @@ class MethodCatModel extends \Core\Model
 
     public function delete()
     {   
-        $sql = 'DELETE payment_methods_assigned_to_users, expenses
-                FROM payment_methods_assigned_to_users
-                JOIN expenses 
-                WHERE payment_methods_assigned_to_users.id = :id 
-                AND expenses.payment_method_assigned_to_user_id = :id' ;
+        
+        if(static::isMethodInExpenses($this->catId) > 0)
+        {
+                $sql = 'DELETE payment_methods_assigned_to_users, expenses
+                    FROM payment_methods_assigned_to_users
+                    JOIN expenses 
+                    WHERE payment_methods_assigned_to_users.id = :id 
+                    AND expenses.payment_method_assigned_to_user_id = :id' ;   
+            } else {
+                $sql = 'DELETE payment_methods_assigned_to_users
+                    FROM payment_methods_assigned_to_users
+                    WHERE id = :id' ;
+            }
 
         $db = static::getDB();
         $stmt = $db->prepare($sql);
@@ -81,6 +89,19 @@ class MethodCatModel extends \Core\Model
         $stmt->execute();
 
         return true;
+    }
+
+       public static function isMethodInExpenses($catId)
+    {
+        $sql = 'SELECT * FROM expenses
+        WHERE payment_method_assigned_to_user_id = :id';
+
+        $db = static::getDB();
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':id', $catId, PDO::PARAM_INT);
+        $stmt->execute();
+    
+        return $stmt->rowCount();
     }
     
     public function edit()

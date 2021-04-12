@@ -69,11 +69,20 @@ class ExpenseCatModel extends \Core\Model
 
     public function delete()
     {   
-        $sql = 'DELETE expenses_category_assigned_to_users, expenses
-                FROM expenses_category_assigned_to_users
-                JOIN expenses 
-                WHERE expenses_category_assigned_to_users.id = :id 
-                AND expenses.expense_category_assigned_to_user_id = :id' ;
+
+        if(static::isCatNameInExpenses($this->catId) > 0)
+            {
+                $sql = 'DELETE expenses_category_assigned_to_users, expenses
+                    FROM expenses_category_assigned_to_users
+                    JOIN expenses 
+                    WHERE expenses_category_assigned_to_users.id = :id 
+                    AND expenses.expense_category_assigned_to_user_id = :id' ;   
+            } else {
+                $sql = 'DELETE expenses_category_assigned_to_users
+                    FROM expenses_category_assigned_to_users
+                    WHERE id = :id' ;
+            }
+
 
         $db = static::getDB();
         $stmt = $db->prepare($sql);
@@ -81,6 +90,19 @@ class ExpenseCatModel extends \Core\Model
         $stmt->execute();
 
         return true;
+    }
+
+    public static function isCatNameInExpenses($catId)
+    {
+        $sql = 'SELECT * FROM expenses
+        WHERE expense_category_assigned_to_user_id = :id';
+
+        $db = static::getDB();
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':id', $catId, PDO::PARAM_INT);
+        $stmt->execute();
+    
+        return $stmt->rowCount();
     }
     
     public function edit()

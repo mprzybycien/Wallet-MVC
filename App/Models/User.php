@@ -247,7 +247,8 @@ public static function sendPasswordReset($email)
         $text = View::getTemplate('Password/reset_email.txt', ['url' => $url]);
         $html = View::getTemplate('Password/reset_email.html', ['url' => $url]);
 
-        Mail::send($this->email, 'Password reset', $text, $html);
+        //Mail::send($this->email, 'Password reset', $text, $html);
+        mail($this->email, 'Password reset', $html, Mail::sender()); 
     }
     
     public static function findByPasswordReset($token)
@@ -315,7 +316,9 @@ public static function sendPasswordReset($email)
         $text = View::getTemplate('Signup/activation_email.txt', ['url' => $url]);
         $html = View::getTemplate('Signup/activation_email.html', ['url' => $url]);
 
-        Mail::send($this->email, 'Account activation', $text, $html);
+        //Mail::send($this->email, 'Account activation', $text, $html);
+
+        mail($this->email, 'Account activation', $html, Mail::sender());  
     }
     
     public static function activate($value)
@@ -333,7 +336,9 @@ public static function sendPasswordReset($email)
 
         $stmt->bindValue(':hashed_token', $hashed_token, PDO::PARAM_STR);
 
-        $stmt->execute();                
+        $stmt->execute();  
+
+
     }
     
     public function updateProfile($data)

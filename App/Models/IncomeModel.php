@@ -124,7 +124,87 @@ class IncomeModel extends \Core\Model
         $stmt->bindValue(':peroidTo', $incomesPeroid['to'], PDO::PARAM_STR);
 
         $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        
+        if ($stmt->rowCount() > 0){
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } else {
+            return false;
+        }
+        
 
     }
+
+    public function findByID($id)
+    {
+        $sql = 'SELECT * FROM incomes WHERE id = :id';
+
+        $db = static::getDB();
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+
+        $stmt->setFetchMode(PDO::FETCH_CLASS, get_called_class());
+
+        $stmt->execute();
+
+        return $stmt->fetch();
+    }
+
+    public function edit()
+    {   
+        $this->validate();
+        $category_id = $this->findByName($this->category);
+
+        if (empty($this->errors)) {
+            $sql = 'UPDATE incomes 
+                    SET income_category_assigned_to_user_id = :category_id,
+                    amount = :amount,
+                    date_of_income = :income_date,
+                    income_comment = :comment
+                    WHERE id = :id';
+
+            $db = static::getDB();
+            $stmt = $db->prepare($sql);
+
+            $stmt->bindValue(':id', $this->incomeId, PDO::PARAM_INT);
+            $stmt->bindValue(':category_id', $category_id->id, PDO::PARAM_INT);
+            $stmt->bindValue(':amount', $this->amount, PDO::PARAM_STR);
+            $stmt->bindValue(':income_date', $this->income_date, PDO::PARAM_STR);
+            $stmt->bindValue(':comment', $this->comment, PDO::PARAM_STR);
+            
+            return $stmt->execute();
+            }
+            return false;
+    }
+
+    public function findByName($name)
+    {
+        $sql = 'SELECT * FROM incomes_category_assigned_to_users 
+                WHERE user_id = :id
+                AND name = :name';
+
+        $db = static::getDB();
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':id', $_SESSION['user_id'], PDO::PARAM_INT);
+        $stmt->bindValue(':name', $name, PDO::PARAM_STR);
+
+        $stmt->setFetchMode(PDO::FETCH_CLASS, get_called_class());
+
+        $stmt->execute();
+
+        return $stmt->fetch();
+    }
+
+    public function delete()
+    {   
+        $sql = 'DELETE FROM incomes 
+                WHERE id = :id' ;
+        $db = static::getDB();
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':id', $this->incomeId, PDO::PARAM_INT);
+        $stmt->execute();
+
+        return true;
+    }
+
+
 }

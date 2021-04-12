@@ -20,13 +20,6 @@ class Home extends \Core\Controller
      */
     public function indexAction()
     {
-      /*  Test wysyłania maila
-        \App\Mail::send(
-            'poczta@mateuszprzybycien.pl', 
-            'test', 
-            'This is a test',
-            '<h1>This is a test</h1>');
-        */
         View::renderTemplate('Home/index.html');
     }
 }

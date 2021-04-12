@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+
+{% block title %}Expense edit{% endblock %}
+
+{% block body %}
+<div class="welcome-container">
+    <h1>Expense edit</h1>
+
+    {% if expenseModel.errors is not empty %}
+    <p> Errors:</p>
+    <ul>
+        {% for error in expenseModel.errors %}
+        <li> {{ error }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    
+    <form method="post" id="formProfile" action="/Expense/edited">
+      <input type="hidden" id="expenseId" name="expenseId" value="{{ expense.id }}">
+      
+      <div class="form-group">
+            <label for="inputCategory">Category of expense</label>
+            <select id="inputCategory" name="category" class="form-control">
+                {% for category in categories %}
+                  {% if category.name == expense_category.name %}
+                  <option>{{ category.name }}</option>
+                  {% endif %}
+                {% endfor %}
+                {% for category in categories %}
+                  {% if category.name != expense_category.name %}
+                  <option>{{ category.name }}</option>
+                  {% endif %}
+                {% endfor %}
+            </select>
+      </div>
+
+      <div class="form-group">
+            <label for="methodCategory">Payment method</label>
+            <select id="inputMethod" name="method" class="form-control">
+                {% for method in methods %}
+                  {% if method.name == method_category.name %}
+                  <option>{{ method.name }}</option>
+                  {% endif %}
+                {% endfor %}
+                {% for method in methods %}
+                  {% if method.name != method_category.name %}
+                  <option>{{ method.name }}</option>
+                  {% endif %}
+                {% endfor %}
+            </select>
+      </div>
+
+      <div class="form-group">
+            <label for="inputAmount">Amount ({{ current_user.currency }})</label>
+            <input id="inputAmount" type="number" step="0.01" min="0.01" autofocus required class="form-control" name="amount" placeholder="Insert expense amount" value="{{ expense.amount }}" />
+      </div>
+
+      <div class="form-group">
+            <label for="inputDate">Date</label>
+            <input id="inputDate" type="date" value='{{ expense.date_of_expense|date("Y-m-d") }}' required class="form-control" name="expense_date"/>
+      </div>
+
+       <div class="form-group">
+            <label for="inputComment">Comment</label>
+            <textarea id="inputComment" name="comment" class="form-control"></textarea>
+      </div>
+
+      <br /><button type="submit" class="btn btn-primary">Save</button>
+        
+      <button type="button" onclick="window.location.href='/';" class="btn btn-secondary">Cancel</button>        
+    </form>
+    or
+
+    <p>
+      <a class="btn btn-danger" data-bs-toggle="collapse" href="#collapse" role="button" aria-expanded="false" aria-controls="collapseExample">
+        Delete
+      </a>
+    </p>
+    <div class="collapse" id="collapse">
+      <div class="card card-body">
+        Are you sure you want to delete this expense?
+        <form method="post" action="/expense/delete" id="formSignup">
+        <input type="hidden" id="expenseId" name="expenseId" value="{{ expense.id }}">
+        <br /><button type="submit" class="btn btn-danger">Yes, delete expense</button>  
+        </form>
+      </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+  document.getElementById("inputComment").value = "{{ expense.expense_comment }}";
+</script>
+
+{% endblock %}

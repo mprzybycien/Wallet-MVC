@@ -7,7 +7,6 @@
 {% endblock %}
 
 {% block body %}
-    <h1>Show incomes</h1>
     {% if incomeModel.errors is not empty %}
     <p> Errors:</p>
     <ul>
@@ -16,22 +15,26 @@
         {% endfor %}
     </ul>
     {% endif %}
+
+    {% if incomes is not empty %}
     
     {% for income in incomes %}
     <div class="addNew addNew-income" onclick="location.href='#';">
         <div class="cell">
-        <dl class="dl-horizontal">
-            <dt class="col-sm-4">category</dt>
-            <dd class="col-sm-8">>{{ income.incomes_name }}</dd>
-            <dt class="col-sm-4">amount</dt>
-            <dd class="col-sm-8">>{{ income.amount }}</dd>
-            <dt class="col-sm-4">date</dt>
-            <dd class="col-sm-8">>{{ income.date_of_income }}</dd>
-            <dt class="col-sm-4">comment</dt>
-            <dd class="col-sm-8">>{{ income.income_comment }}</dd>
-        </dl>
+            <h5>{{ income.incomes_name }}</h5>
+            <h6>{{ income.amount }} {{ current_user.currency }}</h6>
+            <h6>{{ income.date_of_income|date("d-m-Y") }}</h6>
+            <h7>{{ income.income_comment }}</h7>
+        </div>
+        
+        <div class="cellBtn">
+        <form method="post" action="/income/edit" id="formSignup">
+             <input type="hidden" id="incomeId" name="incomeId" value="{{ income.id }}">
+             <br /><button type="submit" class="btn btn-primary">Edit</button>
+        </form>
         </div>
     </div> 
 	{% endfor %}
+    {% endif %}
 
 {% endblock %}

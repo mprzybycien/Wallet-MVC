@@ -7,24 +7,27 @@
 
         <div class="addNew addNew-income" onclick="location.href='/expenseCat/new';">
             <h2>+</h2>
-            <h4>Add new category</h4>
+            <h3>Add new category</h3>
         </div>
         {% for expense in expenses %}
         <div class="addNew addNew-customize">
-            <h4>{{ expense.name }}</h4>
-            <form method="post" action="/expenseCat/edit" id="formSignup">
-                 <input type="hidden" id="catId" name="catId" value="{{ expense.id }}">
-                 <br /><button type="submit" class="btn btn-primary">Edit</button>
-            </form>
-           
+            <div class="cell">
+                <h5>{{ expense.name }}</h5>
+            </div>       
+            <div class="cellBtn">
+                <form method="post" action="/expenseCat/edit" id="formSignup">
+                     <input type="hidden" id="catId" name="catId" value="{{ expense.id }}">
+                     <button type="submit" class="btn btn-primary">Edit</button>
+                </form>
+            </div>
         </div>
         {% endfor %}
-        
+        <!-- 
     {% else %}
     <div class="welcome-container" >
         <a href="/signup/new">Sing up</a> or <a href="/login">log in</a>
     </div>
 
     {% endif %}
-
+-->
 {% endblock %}

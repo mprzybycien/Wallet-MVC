@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}Show incomes{% endblock %}
+{% block title %}Expenses chart{% endblock %}
 
 {% block footer %}
 
@@ -11,17 +11,9 @@
 
     
 <div class="welcome-container">
-    <h1>Show incomes</h1>
-    {% if incomeModel.errors is not empty %}
-    <p> Errors:</p>
-    <ul>
-        {% for error in incomeModel.errors %}
-        <li> {{ error }}</li>
-        {% endfor %}
-    </ul>
-    {% endif %}
+    <h3>Show expenses sum chart</h3>
 
-    <form action="/income/show" method="post">
+    <form action="/expense/chart" method="post">
 
       <div>
         <div class="mt-3"><h3>Peroid:</h3> <strong>{{ selected }}</strong></div>

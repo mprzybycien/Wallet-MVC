@@ -21,18 +21,20 @@ class Config
      * @var string
      */
     const DB_NAME = 'wallet_mvc';
-
+    //const DB_NAME = 'mateus10_php_mvc';
     /**
      * Database user
      * @var string
      */
-    const DB_USER = 'mvcuser';
+    const DB_USER = 'root';
+    //const DB_USER = '   mateus10_walletAdmin';
 
     /**
      * Database password
      * @var string
      */
-    const DB_PASSWORD = 'secret';
+    const DB_PASSWORD = '';
+    //const DB_PASSWORD = 'wallet1234!';
 
     /**
      * Show or hide error messages on screen
@@ -52,20 +54,20 @@ class Config
      *
      * @var string
      */
-    const MAILGUN_API_KEY = "80ef39c59a21caf073d2dccf5e8207f8-29561299-83635468";
+    const MAILGUN_API_KEY = "";
     
       /**
      * Mailgun API URL
      *
      * @var string
      */
-    const MAILGUN_API_URL = "https://api.mailgun.net/v3/sandboxf55f384e1ef74782a578a83987955db4.mailgun.org";
+    const MAILGUN_API_URL = "";
 
     /**
      * Mailgun domain
      *
      * @var string
      */
-    const MAILGUN_DOMAIN = "sandboxf55f384e1ef74782a578a83987955db4.mailgun.org";
+    const MAILGUN_DOMAIN = "";
     
 }

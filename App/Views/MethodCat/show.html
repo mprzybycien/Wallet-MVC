@@ -7,24 +7,28 @@
 
         <div class="addNew addNew-income" onclick="location.href='/methodCat/new';">
             <h2>+</h2>
-            <h4>Add new category</h4>
+            <h3>Add new category</h3>
         </div>
         {% for method in methods %}
         <div class="addNew addNew-customize">
-            <h4>{{ method.name }}</h4>
-            <form method="post" action="/methodCat/edit" id="formSignup">
-                 <input type="hidden" id="catId" name="catId" value="{{ method.id }}">
-                 <br /><button type="submit" class="btn btn-primary">Edit</button>
-            </form>
-           
+            <div class="cell">
+                <h5>{{ method.name }}</h5>
+            </div>
+            <div class="cellBtn">
+                <form method="post" action="/methodCat/edit" id="formSignup">
+                    <input type="hidden" id="catId" name="catId" value="{{ method.id }}">
+                    <button type="submit" class="btn btn-primary">Edit</button>
+                </form>
+            </div>
         </div>
         {% endfor %}
         
+        <!-- 
     {% else %}
     <div class="welcome-container" >
         <a href="/signup/new">Sing up</a> or <a href="/login">log in</a>
     </div>
 
     {% endif %}
-
+-->
 {% endblock %}

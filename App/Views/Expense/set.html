@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}Show incomes{% endblock %}
+{% block title %}Show expenses{% endblock %}
 
 {% block footer %}
 
@@ -11,17 +11,17 @@
 
     
 <div class="welcome-container">
-    <h1>Show incomes</h1>
-    {% if incomeModel.errors is not empty %}
+    <h1>Show expenses</h1>
+    {% if expenseModel.errors is not empty %}
     <p> Errors:</p>
     <ul>
-        {% for error in incomeModel.errors %}
+        {% for error in expenseModel.errors %}
         <li> {{ error }}</li>
         {% endfor %}
     </ul>
     {% endif %}
 
-    <form action="/income/show" method="post">
+    <form action="/expense/show" method="post">
 
       <div>
         <div class="mt-3"><h3>Peroid:</h3> <strong>{{ selected }}</strong></div>
