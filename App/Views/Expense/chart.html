@@ -40,8 +40,8 @@
       options:{
         title:{
           display:true,
-          text:'Expense chart for the indicated period ({{ current_user.currency }})',
-          fontSize:25
+          text:'Chart of expense for an indicated period by category ({{ current_user.currency }})',
+          fontSize:20
         },
         legend:{
           display:true,
@@ -69,6 +69,22 @@
       }
     });
   </script>
+
+  {% endblock %}
+
+  {% block body %}
+  <div class="welcome-container">
+    <h1>Expense stats for indicated peroid</h1>
+
+    <dl class="row">
+        <dt class="col-sm-4">Expenses sum</dt>
+        <dd class="col-sm-8">>{{ expensesSum.Sum }} {{ current_user.currency }}</dd>
+        <dt class="col-sm-4">The greatest expense</dt>
+        <dd class="col-sm-8">>{{ greatestExpense.greatestAmount }} {{ current_user.currency }}</dd>
+        <dt class="col-sm-4">number of expense records</dt>
+        <dd class="col-sm-8">>{{ numerOfExpenses }}</dd>
+    </dl>
+  </div><br /><br />
 
   {% endblock %}
 

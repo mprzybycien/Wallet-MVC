@@ -71,9 +71,6 @@ class IncomeCat extends Authenticated
             $arg['incomeCatModel'] =  $incomeCatModel;
             $arg['cat'] = $_SESSION['current_category'];
             View::renderTemplate('IncomeCat/edit.html', $arg);
-/*
-            View::renderTemplate('IncomeCat/show.html', ['incomeCatModel' => $incomeCatModel
-        ]); */
         }
     } 
 

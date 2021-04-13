@@ -15,6 +15,7 @@ use Mailgun\Mailgun;
 
 class Mail
 {
+    /*
     public static function send($to, $subject, $text, $html)
     {
             // First, instantiate the SDK with your API credentials
@@ -30,7 +31,7 @@ class Mail
                     'text'	=> $text,
                     'html' => $html]);
     }
-
+    */
     public static function sender()
     {
         $from  = "From: wallet@mateuszprzybycien.pl \r\n";

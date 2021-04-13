@@ -32,8 +32,6 @@ class StatsModel extends \Core\Model
     
     public function getIncomeTotalSum($incomesPeroid)
     {
-        /*$sql = 'SELECT income_category_assigned_to_user_id, sum(amount) as TotalSum FROM incomes WHERE user_id = :id group by income_category_assigned_to_user_id';
-*/   
 
         $sql = 'SELECT 
                 incomes_category_assigned_to_users.name as income_name,
@@ -53,8 +51,6 @@ class StatsModel extends \Core\Model
         $stmt->bindValue(':peroidFor', $incomesPeroid['for'], PDO::PARAM_STR);
         $stmt->bindValue(':peroidTo', $incomesPeroid['to'], PDO::PARAM_STR);
 
-        //$stmt->setFetchMode(PDO::FETCH_CLASS, get_called_class()); // zamieni wektor na obiekt
-
         $stmt->execute();
 
         if ($stmt->rowCount() > 0){
@@ -65,11 +61,75 @@ class StatsModel extends \Core\Model
 
     }
 
-    public function getExpenseTotalSum($expensesPeroid)
+    public function getIncomesSum($incomesPeroid)
     {
-        /*$sql = 'SELECT income_category_assigned_to_user_id, sum(amount) as TotalSum FROM incomes WHERE user_id = :id group by income_category_assigned_to_user_id';
-*/   
+                $sql = 'SELECT 
+                sum(incomes.amount) as Sum 
+                FROM incomes
+                WHERE user_id = :id
+                AND date_of_income >= :peroidFor
+                AND date_of_income <= :peroidTo';
 
+
+        $db = static::getDB(); 
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':id', $_SESSION['user_id'], PDO::PARAM_STR);
+        $stmt->bindValue(':peroidFor', $incomesPeroid['for'], PDO::PARAM_STR);
+        $stmt->bindValue(':peroidTo', $incomesPeroid['to'], PDO::PARAM_STR);
+
+        $stmt->setFetchMode(PDO::FETCH_CLASS, get_called_class());
+
+        $stmt->execute();
+
+        return $stmt->fetch();
+    }
+
+    public function getGreatestIncome($incomesPeroid)
+    {
+                $sql = 'SELECT MAX(amount) as greatestAmount
+                FROM incomes
+                WHERE user_id = :id
+                AND date_of_income >= :peroidFor
+                AND date_of_income <= :peroidTo';
+
+
+        $db = static::getDB(); 
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':id', $_SESSION['user_id'], PDO::PARAM_STR);
+        $stmt->bindValue(':peroidFor', $incomesPeroid['for'], PDO::PARAM_STR);
+        $stmt->bindValue(':peroidTo', $incomesPeroid['to'], PDO::PARAM_STR);
+
+        $stmt->setFetchMode(PDO::FETCH_CLASS, get_called_class());
+
+        $stmt->execute();
+
+        return $stmt->fetch();
+    }
+
+    public function getNumerOfIncomes($incomesPeroid)
+    {
+                $sql = 'SELECT *
+                FROM incomes
+                WHERE user_id = :id
+                AND date_of_income >= :peroidFor
+                AND date_of_income <= :peroidTo';
+
+
+        $db = static::getDB(); 
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':id', $_SESSION['user_id'], PDO::PARAM_STR);
+        $stmt->bindValue(':peroidFor', $incomesPeroid['for'], PDO::PARAM_STR);
+        $stmt->bindValue(':peroidTo', $incomesPeroid['to'], PDO::PARAM_STR);
+
+        $stmt->setFetchMode(PDO::FETCH_CLASS, get_called_class());
+
+        $stmt->execute();
+
+        return $stmt->rowCount();
+    }
+
+      public function getExpenseTotalSum($expensesPeroid)
+    {
         $sql = 'SELECT 
                 expenses_category_assigned_to_users.name as expense_name,
                 expenses.expense_category_assigned_to_user_id, 
@@ -88,8 +148,6 @@ class StatsModel extends \Core\Model
         $stmt->bindValue(':peroidFor', $expensesPeroid['for'], PDO::PARAM_STR);
         $stmt->bindValue(':peroidTo', $expensesPeroid['to'], PDO::PARAM_STR);
 
-        //$stmt->setFetchMode(PDO::FETCH_CLASS, get_called_class()); // zamieni wektor na obiekt
-
         $stmt->execute();
 
         if ($stmt->rowCount() > 0){
@@ -98,6 +156,73 @@ class StatsModel extends \Core\Model
             return false;
         }
 
+    }
+
+    public function getExpensesSum($expensesPeroid)
+    {
+                $sql = 'SELECT 
+                sum(expenses.amount) as Sum 
+                FROM expenses
+                WHERE user_id = :id
+                AND date_of_expense >= :peroidFor
+                AND date_of_expense <= :peroidTo';
+
+
+        $db = static::getDB(); 
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':id', $_SESSION['user_id'], PDO::PARAM_STR);
+        $stmt->bindValue(':peroidFor', $expensesPeroid['for'], PDO::PARAM_STR);
+        $stmt->bindValue(':peroidTo', $expensesPeroid['to'], PDO::PARAM_STR);
+
+        $stmt->setFetchMode(PDO::FETCH_CLASS, get_called_class());
+
+        $stmt->execute();
+
+        return $stmt->fetch();
+    }
+
+    public function getGreatestExpense($expensesPeroid)
+    {
+                $sql = 'SELECT MAX(amount) as greatestAmount
+                FROM expenses
+                WHERE user_id = :id
+                AND date_of_expense >= :peroidFor
+                AND date_of_expense <= :peroidTo';
+
+
+        $db = static::getDB(); 
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':id', $_SESSION['user_id'], PDO::PARAM_STR);
+        $stmt->bindValue(':peroidFor', $expensesPeroid['for'], PDO::PARAM_STR);
+        $stmt->bindValue(':peroidTo', $expensesPeroid['to'], PDO::PARAM_STR);
+
+        $stmt->setFetchMode(PDO::FETCH_CLASS, get_called_class());
+
+        $stmt->execute();
+
+        return $stmt->fetch();
+    }
+
+    public function getNumerOfExpenses($expensesPeroid)
+    {
+                $sql = 'SELECT *
+                FROM expenses
+                WHERE user_id = :id
+                AND date_of_expense >= :peroidFor
+                AND date_of_expense <= :peroidTo';
+
+
+        $db = static::getDB(); 
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':id', $_SESSION['user_id'], PDO::PARAM_STR);
+        $stmt->bindValue(':peroidFor', $expensesPeroid['for'], PDO::PARAM_STR);
+        $stmt->bindValue(':peroidTo', $expensesPeroid['to'], PDO::PARAM_STR);
+
+        $stmt->setFetchMode(PDO::FETCH_CLASS, get_called_class());
+
+        $stmt->execute();
+
+        return $stmt->rowCount();
     }
         
 }

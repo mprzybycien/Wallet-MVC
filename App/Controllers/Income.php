@@ -109,7 +109,7 @@ class Income extends Authenticated
         $incomeModel = new IncomeModel($_POST);
         if ($incomeModel->delete()) {
             Flash::addMessage('Income deleted');
-            $this->redirect('/');
+            $this->redirect('/income/set');
         } else {
             Flash::addMessage('Income has not been deleted', Flash::WARNING);
             $incomeCatModel = new IncomeCatModel($_POST);
@@ -136,7 +136,11 @@ class Income extends Authenticated
 
         if($stats->getIncomeTotalSum($incomesPeroid)){
             $arg['incomesTotalSum'] = $stats->getIncomeTotalSum($incomesPeroid);
+            $arg['incomesSum'] =  $stats->getIncomesSum($incomesPeroid);
+            $arg['greatestIncome'] = $stats->getGreatestIncome($incomesPeroid);
+            $arg['numerOfIncomes'] = $stats->getNumerOfIncomes($incomesPeroid);
             View::renderTemplate('Income/chart.html', $arg);
+
         } else {
             Flash::addMessage('No incomes were found during this period', Flash::WARNING);
             View::renderTemplate('Income/stats.html');

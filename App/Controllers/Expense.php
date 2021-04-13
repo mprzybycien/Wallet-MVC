@@ -123,7 +123,7 @@ class Expense extends Authenticated
         $expenseModel = new ExpenseModel($_POST);
         if ($expenseModel->delete()) {
             Flash::addMessage('Expense deleted');
-            $this->redirect('/');
+            $this->redirect('/expense/set');
         } else {
             Flash::addMessage('Expense has not been deleted', Flash::WARNING);
             $expenseCatModel = new ExpenseCatModel($_POST);
@@ -152,6 +152,9 @@ class Expense extends Authenticated
 
         if($stats->getExpenseTotalSum($expensesPeroid)){
             $arg['expensesTotalSum'] = $stats->getExpenseTotalSum($expensesPeroid);
+            $arg['expensesSum'] =  $stats->getExpensesSum($expensesPeroid);
+            $arg['greatestExpense'] = $stats->getGreatestExpense($expensesPeroid);
+            $arg['numerOfExpenses'] = $stats->getNumerOfExpenses($expensesPeroid);
             View::renderTemplate('Expense/chart.html', $arg);
         } else {
             Flash::addMessage('No expenses were found during this period', Flash::WARNING);
