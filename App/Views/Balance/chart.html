@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+
+{% block title %}Balance{% endblock %}
+
+    {% block footer %}
+
+    <div class="container">
+        <canvas id="myChart"></canvas>
+    </div>
+     
+    <script>
+    let myChart = document.getElementById('myChart').getContext('2d');
+
+    Chart.defaults.global.defaultFontFamily = 'Lato';
+    Chart.defaults.global.defaultFontSize = 18;
+    Chart.defaults.global.defaultFontColor = '#b0a4a4';
+
+    let massPopChart = new Chart(myChart, {
+      type:'horizontalBar', // bar, horizontalBar, pie, line, doughnut, radar, polarArea
+      
+      data: {
+
+        labels:['Current month', 'Previous Month'
+        ],
+
+        datasets:[
+
+          {
+            label:'Incomes',
+            data:[ {{ currentIncomes.Sum }}, {{ previousIncomes.Sum }} ],
+            backgroundColor:'green'
+          },
+
+          {
+            label:'Expenses',
+            data:[ {{ currentExpenses.Sum }}, {{ previousExpenses.Sum }} ],
+            backgroundColor:'red'
+          }
+
+          ],
+
+      options:{
+        title:{
+          display:true,
+          text:'Chart of income for an indicated period by category ({{ current_user.currency }})',
+          fontSize:20
+        },
+        legend:{
+          display:true,
+          position:'right',
+          labels:{
+            fontColor:'#b0a4a4'
+          }
+        },
+        layout:{
+          padding:{
+            left:50,
+            right:0,
+            bottom:0,
+            top:0
+          }
+        },
+        tooltips:{
+          enabled:true
+        },
+        plugins: {
+            colorschemes: {
+                scheme: 'office.Slate6'
+            }
+        }
+      }
+    });
+
+  </script>
+  {% endblock %}
+  {% block body %}
+  <div class="welcome-container">
+    <h1>Income stats for indicated peroid</h1>
+
+    <dl class="row">
+        <dt class="col-sm-4">Incomes sum</dt>
+        <dd class="col-sm-8">>{{ incomesSum.Sum }} {{ current_user.currency }}</dd>
+        <dt class="col-sm-4">The greatest income</dt>
+        <dd class="col-sm-8">>{{ greatestIncome.greatestAmount }} {{ current_user.currency }}</dd>
+        <dt class="col-sm-4">number of income records</dt>
+        <dd class="col-sm-8">>{{ numerOfIncomes }}</dd>
+    </dl>
+  </div><br /><br />
+
+  {% endblock %}

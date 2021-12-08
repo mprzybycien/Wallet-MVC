@@ -15,10 +15,35 @@
     </ul>
     {% endif %}
 
-    <form method="post" id="formProfile" action="/ExpenseCat/create">
-          <br /><input id="inputName" name="name" placeholder="Name" required autofocus class="form-control"/><br />
+    <script type="text/javascript">
+      function showLimitInput() {
+      var checkBox = document.getElementById("myCheck");
+      var text = document.getElementById("inputAmount");
 
-      <button type="submit" class="btn btn-primary">Save</button>
+      if (checkBox.checked == true){
+        text.style.display = "block";
+        document.getElementById("inputAmount").required = true;
+
+      } else {
+        text.style.display = "none";
+        document.getElementById("inputAmount").required = false;
+      }
+}
+
+
+    </script>
+
+    <form method="post" id="formProfile" action="/ExpenseCat/create">
+          
+          <label for="inputName">Name</label>
+          <br /><input id="inputName" name="name" placeholder="Insert name of category" required autofocus class="form-control"/><br />
+
+          <input type="checkbox" id="myCheck" onclick="showLimitInput()"> 
+          <label for="myCheck"> Set monthly limit ({{ current_user.currency }})</label>
+
+          <input style = "display: none" id="inputAmount" type="number" step="0.01" min="0.01" autofocus class="form-control" name="maximum" placeholder="Insert monthly limit" /> <br />
+
+     <br /> <button type="submit" class="btn btn-primary">Save</button>
         
       <button type="button" onclick="window.location.href='/ExpenseCat/show';" class="btn btn-secondary">Cancel</button>        
 </div>

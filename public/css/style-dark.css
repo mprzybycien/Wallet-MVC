@@ -152,5 +152,11 @@ input[type=radio] {
     height: 49px;
     padding-left: 140px;
 }
+#response {
+    color:  red;
+    text-align: center;
+    font-size: 16px;
+    bor
+}
 
 /*https://gist.github.com/evilmarty/3021338*/

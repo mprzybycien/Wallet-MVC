@@ -29,7 +29,7 @@ class Income extends Authenticated
     public function newAction()
     {
         $arg['incomes'] = IncomeCatModel::getIncomeCategories();
-        View::renderTemplate('Income/new.html', $arg);
+        View::renderTemplate('Income/new.html', $arg); 
     }
 
     public function createAction()

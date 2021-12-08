@@ -246,4 +246,44 @@ class ExpenseModel extends \Core\Model
 
         return true;
     }
+
+
+    public static function totalExpenseByCat($expenseCat, $value, $date)
+    {
+        $user_id = $_SESSION['user_id'];
+        $expenseCatId = ExpenseModel::findCategoryId($expenseCat, $user_id);
+
+        $start = date('Y-m-01', strtotime($date));
+        $end = date('Y-m-t', strtotime($date));
+
+        $sql = 'SELECT 
+                sum(expenses.amount) as Sum 
+                FROM expenses
+                WHERE user_id = :id 
+                AND expense_category_assigned_to_user_id = :expenseCatId
+                AND date_of_expense >= :peroidFor
+                AND date_of_expense <= :peroidTo';
+
+
+        $db = static::getDB(); 
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':id', $user_id, PDO::PARAM_STR);
+        $stmt->bindValue(':expenseCatId', $expenseCatId[0], PDO::PARAM_STR);
+        $stmt->bindValue(':peroidFor', $start, PDO::PARAM_STR);
+        $stmt->bindValue(':peroidTo', $end, PDO::PARAM_STR);
+
+        $stmt->setFetchMode(PDO::FETCH_CLASS, get_called_class());
+
+        $stmt->execute();
+
+
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC))
+        {
+            $totalExpense = $row['Sum'] + $value;
+        }   
+
+        if($totalExpense) return $totalExpense;
+        else return 0;
+    }
+
 }

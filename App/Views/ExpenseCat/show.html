@@ -13,6 +13,14 @@
         <div class="addNew addNew-customize">
             <div class="cell">
                 <h5>{{ expense.name }}</h5>
+                <h6>
+                LIMIT: 
+                {% if expense.maximum == 0 %}
+                    No
+                {% else %}
+                    {{ expense.maximum }} {{ current_user.currency }}
+                {% endif %}
+                </h6>
             </div>       
             <div class="cellBtn">
                 <form method="post" action="/expenseCat/edit" id="formSignup">
@@ -20,7 +28,7 @@
                      <button type="submit" class="btn btn-primary">Edit</button>
                 </form>
             </div>
-        </div>
+        </div> 
         {% endfor %}
         {% endif %}
 {% endblock %}

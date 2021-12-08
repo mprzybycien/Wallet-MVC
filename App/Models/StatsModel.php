@@ -224,6 +224,62 @@ class StatsModel extends \Core\Model
 
         return $stmt->rowCount();
     }
+
+    public function getAllIncomesSum()
+    {
+                $sql = 'SELECT 
+                sum(incomes.amount) as Sum 
+                FROM incomes
+                WHERE user_id = :id';
+                
+
+        $db = static::getDB(); 
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':id', $_SESSION['user_id'], PDO::PARAM_STR);
+
+        $stmt->setFetchMode(PDO::FETCH_CLASS, get_called_class());
+
+        $stmt->execute();
+
+        return $stmt->fetch();
+    }
+
+
+    public function getAllExpensesSum()
+    {
+                $sql = 'SELECT 
+                sum(expenses.amount) as Sum 
+                FROM expenses
+                WHERE user_id = :id';
+
+        $db = static::getDB(); 
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':id', $_SESSION['user_id'], PDO::PARAM_STR);
+
+        $stmt->setFetchMode(PDO::FETCH_CLASS, get_called_class());
+
+        $stmt->execute();
+
+        return $stmt->fetch();
+    }
+
+    public function getCurrentMonthDates()
+    {
+        $peroid['for'] = date('Y-m-00');
+        $peroid['to'] = date("Y-m-t");
+
+        return $peroid;
+    }
+
+    public function getPreviousMonthDates()
+    {
+        $peroid['for'] = date("Y-m-d", strtotime("first day of previous month"));
+        $peroid['to'] = date("Y-m-d", strtotime("last day of previous month"));
+
+        return $peroid;
+    }
+
+
         
 }
 
