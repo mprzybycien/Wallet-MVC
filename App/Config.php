@@ -42,35 +42,4 @@ class Config
      */
     const SHOW_ERRORS = true;
     
-
-
-
-    /**
-     * Secret key for hashing
-     * @var boolean
-     */
-    /*
-    const SECRET_KEY = '8qB4wKj7DMPzgqGsYdyeN7hJ5fDlG67x';
-    
-        /**
-     * Mailgun API key
-     *
-     * @var string
-     */
-    const MAILGUN_API_KEY = "";
-    
-      /**
-     * Mailgun API URL
-     *
-     * @var string
-     */
-    const MAILGUN_API_URL = "";
-
-    /**
-     * Mailgun domain
-     *
-     * @var string
-     */
-    const MAILGUN_DOMAIN = "";
-    
 }

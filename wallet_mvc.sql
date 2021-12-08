@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Czas generowania: 30 Paź 2021, 14:28
--- Wersja serwera: 10.4.20-MariaDB
--- Wersja PHP: 8.0.8
+-- Czas generowania: 08 Gru 2021, 19:29
+-- Wersja serwera: 10.4.22-MariaDB
+-- Wersja PHP: 8.0.13
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -78,7 +78,10 @@ INSERT INTO `expenses` (`id`, `user_id`, `expense_category_assigned_to_user_id`,
 (15, 6, 116, 30, '3.14', '2021-04-08', ''),
 (16, 6, 111, 29, '34.19', '2021-03-09', ''),
 (17, 6, 114, 29, '89.18', '2021-03-30', ''),
-(18, 2, 32, 8, '123.00', '2021-10-17', '');
+(23, 2, 190, 8, '90.00', '2021-12-07', ''),
+(24, 2, 188, 8, '1233.00', '2021-12-07', ''),
+(25, 2, 202, 11, '900.00', '2021-12-08', ''),
+(26, 2, 202, 8, '1111.00', '2021-10-07', '');
 
 -- --------------------------------------------------------
 
@@ -114,7 +117,6 @@ INSERT INTO `expenses_category_assigned_to_users` (`id`, `user_id`, `name`, `max
 (14, 1, 'Transport', '0.00'),
 (15, 1, 'Trip', '0.00'),
 (16, 1, 'Other', '0.00'),
-(32, 2, 'Another', '0.00'),
 (33, 2, 'Apartments', '0.00'),
 (35, 2, 'Debt Repayment', '0.00'),
 (37, 2, 'For Retirement', '0.00'),
@@ -205,7 +207,12 @@ INSERT INTO `expenses_category_assigned_to_users` (`id`, `user_id`, `name`, `max
 (186, 8, 'Trip', '0.00'),
 (187, 8, 'Other', '0.00'),
 (188, 2, 'asd', '0.00'),
-(189, 2, 'test', '123.00');
+(189, 2, 'test', '123.00'),
+(190, 2, 'new', '100.00'),
+(192, 2, 'ert', '0.00'),
+(194, 2, 'awfsdg', '0.00'),
+(197, 2, 'ass', '0.00'),
+(202, 2, 'anew', '1000.00');
 
 -- --------------------------------------------------------
 
@@ -532,13 +539,13 @@ ALTER TABLE `currencies`
 -- AUTO_INCREMENT dla tabeli `expenses`
 --
 ALTER TABLE `expenses`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT dla tabeli `expenses_category_assigned_to_users`
 --
 ALTER TABLE `expenses_category_assigned_to_users`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=190;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=203;
 
 --
 -- AUTO_INCREMENT dla tabeli `expenses_category_default`
