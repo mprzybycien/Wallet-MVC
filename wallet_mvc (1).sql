@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Czas generowania: 08 Gru 2021, 19:29
+-- Czas generowania: 22 Gru 2021, 15:50
 -- Wersja serwera: 10.4.22-MariaDB
 -- Wersja PHP: 8.0.13
 
@@ -80,7 +80,7 @@ INSERT INTO `expenses` (`id`, `user_id`, `expense_category_assigned_to_user_id`,
 (17, 6, 114, 29, '89.18', '2021-03-30', ''),
 (23, 2, 190, 8, '90.00', '2021-12-07', ''),
 (24, 2, 188, 8, '1233.00', '2021-12-07', ''),
-(25, 2, 202, 11, '900.00', '2021-12-08', ''),
+(25, 2, 202, 11, '900.00', '2021-12-08', 'qwfdfvdfvervqvdsvervdfvfv'),
 (26, 2, 202, 8, '1111.00', '2021-10-07', '');
 
 -- --------------------------------------------------------
@@ -124,7 +124,7 @@ INSERT INTO `expenses_category_assigned_to_users` (`id`, `user_id`, `name`, `max
 (40, 2, 'Hygiene', '0.00'),
 (42, 2, 'Recreation', '0.00'),
 (44, 2, 'Telecommunication', '0.00'),
-(45, 2, 'Transport', '0.00'),
+(45, 2, 'Transport', '880.00'),
 (47, 2, 'Other', '0.00'),
 (48, 4, 'Another', '0.00'),
 (49, 4, 'Apartments', '0.00'),
@@ -428,6 +428,25 @@ INSERT INTO `payment_methods_default` (`id`, `name`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Struktura tabeli dla tabeli `remembered_logins`
+--
+
+CREATE TABLE `remembered_logins` (
+  `token_hash` varchar(64) COLLATE utf8_polish_ci NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `expires_at` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
+
+--
+-- Zrzut danych tabeli `remembered_logins`
+--
+
+INSERT INTO `remembered_logins` (`token_hash`, `user_id`, `expires_at`) VALUES
+('f586e002ac30f65be731af295de21358603a6013fa1d4644a4fd7ace72aebb14', 2, '2022-01-18 20:02:55');
+
+-- --------------------------------------------------------
+
+--
 -- Struktura tabeli dla tabeli `users`
 --
 
@@ -455,8 +474,8 @@ INSERT INTO `users` (`id`, `name`, `email`, `password_hash`, `password_reset_has
 (6, 'Projekt', 'projekt@przyszlyprogramista.pl', '$2y$10$ZtOrt0Q11kgVelLWgOcfD.meyPiuPFPxg6oA4cux7PgJbXOjI4aM2', NULL, NULL, NULL, 1, 1, 0, 'USD'),
 (7, 'Mateusz', 'poczta@mateuszprzybycien.pl', '$2y$10$B.oxBs.rh/SZrL7m2R5HIuVfg23cPaeY6XsgfKZzowX/ww00w7ne.', NULL, NULL, '62f414145e0b2f285da6fd0cd39ec551d741588e1bdda6e14a80be894899c1d8', 0, 1, 0, 'USD'),
 (8, 'Ewelina Kozioł', 'ewelinakoziol.91@o2.pl', '$2y$10$WapoeyVKwTD2vBNjWJiiUuGVOzXG4J640gtCHUCfURL9fDOCkqIPm', NULL, NULL, NULL, 1, 1, 0, 'USD'),
-(9, 'mat', 'przybycien@outlook.com', '$2y$10$uiIPQX/LCXZl3m0uVtJDPOVrJiMK/XQFyQ5M5dkLQp0xu46voYD1u', NULL, NULL, 'b95cbf2473edf96d5ee699b6aca55035de9d77764e33e4efcc705c36f181b7ab', 0, 0, 0, 'USD'),
-(10, 'mat', 'm.przybycien@tia.com.pl', '$2y$10$7oQpsYmoBtYinKZp7578we7HBUrfH9MOC7Gg3Zygg5OnCIAIckpXa', NULL, NULL, '945abbca8ebbc412508b809e42e4cd40eb3d04257e2344f90a9c385266d29c99', 0, 0, 0, 'USD');
+(10, 'mat', 'm.przybycien@tia.com.pl', '$2y$10$7oQpsYmoBtYinKZp7578we7HBUrfH9MOC7Gg3Zygg5OnCIAIckpXa', NULL, NULL, '945abbca8ebbc412508b809e42e4cd40eb3d04257e2344f90a9c385266d29c99', 0, 0, 0, 'USD'),
+(12, 'mat', 'przybycien@outlook.com', '$2y$10$6BA7AqMFsEZzQZXb.cLVNuDJ7quaaFY6G9CKm1V71AXpX2ucxeX6O', NULL, NULL, '15dca956ccde2c333eb2e6f06d6b6e08fcb66acfd4cd223878510e5d0db6c56d', 0, 0, 0, 'USD');
 
 --
 -- Indeksy dla zrzutów tabel
@@ -515,6 +534,13 @@ ALTER TABLE `payment_methods_assigned_to_users`
 --
 ALTER TABLE `payment_methods_default`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Indeksy dla tabeli `remembered_logins`
+--
+ALTER TABLE `remembered_logins`
+  ADD PRIMARY KEY (`token_hash`),
+  ADD KEY `user_id` (`user_id`);
 
 --
 -- Indeksy dla tabeli `users`
@@ -587,7 +613,7 @@ ALTER TABLE `payment_methods_default`
 -- AUTO_INCREMENT dla tabeli `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

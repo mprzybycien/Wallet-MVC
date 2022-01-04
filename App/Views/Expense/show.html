@@ -3,39 +3,191 @@
 {% block title %}Show expenses{% endblock %}
 
 {% block footer %}
+<script>
+    $(function(){
 
+
+      var dynamicColors = function() {
+        var r = Math.floor(Math.random() * 255);
+        var g = Math.floor(Math.random() * 255);
+        var b = Math.floor(Math.random() * 255);
+        return "rgb(" + r + "," + g + "," + b + ")";
+    };
+
+    var coloR = [];
+
+    var step;
+    for (step = 0; step < {{ numerOfExpenses }}; step++) {
+        coloR.push(dynamicColors());
+    };
+
+    //get the doughnut chart canvas
+    var ctx1 = $("#doughnut-chartcanvas-1");
+
+    //doughnut chart data
+    var data1 = {
+        labels: [
+        {% for expense in expensesTotalSum %}
+        '{{ expense.expense_name }}'{% if loop.last == 0 %},{% endif %}
+        {% endfor %}
+        ],
+        datasets: [
+        {
+            label: "Expenses",
+            borderWidth: 0,
+            data:[         
+            {% for expense in expensesTotalSum %}
+            {{ expense.TotalSum }},
+            {% endfor %} ],
+            backgroundColor: coloR
+        }
+        ]
+    };
+
+  //options
+  var options = {
+    responsive: true,
+
+    legend: {
+      display: true,
+      position: "bottom",
+      labels: {
+        fontColor: "grey",
+        fontSize: 14
+    }
+}
+};
+
+  //create Chart class object
+  var chart1 = new Chart(ctx1, {
+    type: "doughnut",
+    data: data1,
+    options: options
+});
+});
+</script>
 {% endblock %}
 
 {% block body %}
-    {% if expenseModel.errors is not empty %}
-    <p> Errors:</p>
-    <ul>
-        {% for error in expenseModel.errors %}
-        <li> {{ error }}</li>
-        {% endfor %}
-    </ul>
-    {% endif %}
+{% if expenseModel.errors is not empty %}
+<p>
+    Errors:
+</p>
+<ul>
+    {% for error in expenseModel.errors %}
+    <li>
+        {{ error }}
+    </li>
+    {% endfor %}
+</ul>
+{% endif %}
 
-    {% if expenses is not empty %}
-
-    {% for expense in expenses %}
-    <div class="addNew addNew-expense" onclick="location.href='#';">
-        <div class="cell">
-            <h5>{{ expense.expenses_name }}</h5>
-            <h6>{{ expense.amount }} {{ current_user.currency }}</h6>
-            <h6>{{ expense.date_of_expense|date("d-m-Y") }}</h6>
-            <h6>{{ expense.method_name }}</h6>
-            <h7>{{ expense.expense_comment }}</h7>
+{% if expenses is not empty %}
+<p>
+    <button aria-controls="collapseExample" aria-expanded="false" class="btn btn-success" data-bs-target="#collapseExample" data-bs-toggle="collapse" type="button">
+        Show statistics >>
+    </button>
+</p>
+<div class="collapse" id="collapseExample">
+    <div class="card card-body">
+        <div>
+            <div class="doubleContainer">
+                <h4>
+                    You have {{ numerOfExpenses }} transactions in this period
+                </h4>
+                <br/>
+                <h4>
+                    You spent {{ expensesSum.Sum }} {{ current_user.currency }}
+                </h4>
+                <br/>
+                <h4>
+                    The higher one-time amount spent in this period is {{ greatestExpense.greatestAmount }} {{ current_user.currency }}
+                </h4>
+            </div>
+            <div class="doubleContainer">
+                <div class="chart-container">
+                    <div class="doughnut-chart-container">
+                        <canvas id="doughnut-chartcanvas-1">
+                        </canvas>
+                    </div>
+                </div>
+            </div>
         </div>
-        
-        <div class="cellBtn">
-        <form method="post" action="/expense/edit" id="formSignup">
-             <input type="hidden" id="expenseId" name="expenseId" value="{{ expense.id }}">
-             <br /><button type="submit" class="btn btn-primary">Edit</button>
+    </div>
+</div>
+{% for expense in expenses %}
+<div class="addNew addNew-expense" onclick="location.href='#';">
+    <div class="cell">
+        <h3>
+            {{ expense.expenses_name }}
+        </h3>
+        <h6>
+            {{ expense.amount }} {{ current_user.currency }}
+        </h6>
+        <h6>
+            {{ expense.date_of_expense|date("d-m-Y") }}
+        </h6>
+    </div>
+    <div class="cellBtn">
+        <form action="/expense/edit" id="formSignup" method="post">
+            <input id="expenseId" name="expenseId" type="hidden" value="{{ expense.id }}">
+                <button class="btn btn-secondary" data-bs-target="#modal{{ expense.id }}" data-bs-toggle="modal" type="button">
+                    More
+                </button>
+                <button class="btn btn-primary" type="submit">
+                    Edit
+                </button>
+            </input>
         </form>
+    </div>
+</div>
+<div aria-hidden="true" aria-labelledby="exampleModalLabel" class="modal fade" id="modal{{ expense.id }}" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">
+                    Expense details
+                </h5>
+                <button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button">
+                </button>
+            </div>
+            <div class="modal-body">
+                <h6>
+                    Category:
+                </h6>
+                {{ expense.expenses_name }}
+                <br/>
+                <br/>
+                <h6>
+                    Amount:
+                </h6>
+                {{ expense.amount }} {{ current_user.currency }}
+                <br/>
+                <br/>
+                <h6>
+                    Payment method:
+                </h6>
+                {{ expense.method_name }}
+                <br/>
+                <br/>
+                <h6>
+                    Date:
+                </h6>
+                {{ expense.date_of_expense|date("d-m-Y") }}
+                <br/>
+                <br/>
+                <h6>
+                    Comment:
+                </h6>
+                {{ expense.expense_comment }}
+                <br/>
+                <br/>
+            </div>
         </div>
-    </div> 
-	{% endfor %}
-    {% endif %}
+    </div>
+</div>
+{% endfor %}
+
+{% endif %}
 
 {% endblock %}

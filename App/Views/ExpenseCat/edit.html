@@ -4,20 +4,23 @@
 
 {% block body %}
 <div class="welcome-container">
-    <h1>Expense category name edit</h1>
-
+    <h1>
+        Expense category name edit
+    </h1>
     {% if expenseCatModel.errors is not empty %}
-    <p> Errors:</p>
+    <p>
+        Errors:
+    </p>
     <ul>
         {% for error in expenseCatModel.errors %}
-        <li> {{ error }}</li>
+        <li>
+            {{ error }}
+        </li>
         {% endfor %}
     </ul>
     {% endif %}
-
-
     <script type="text/javascript">
-      function showLimitInput() {
+        function showLimitInput() {
       var checkBox = document.getElementById("myCheck");
       var text = document.getElementById("inputAmount");
 
@@ -30,44 +33,54 @@
         document.getElementById("inputAmount").required = false;
       }
       }
-
-
     </script>
-    
-    <form method="post" id="formProfile" action="/expenseCat/edited">
-      <input type="hidden" id="catId" name="id" value="{{ cat.id }}" >
-      <div class="for-group">
-          <label for="inputName">Name</label>
-          <input id="inputName" name="name" placeholder="Name" value="{{ cat.name }}" autofocus required class="form-control"/>
-      </div><br />
-
-      <input type="checkbox" id="myCheck" onclick="showLimitInput()"> 
-          <label for="myCheck"> Set monthly limit ({{ current_user.currency }})</label>
-
-          <input style = "display: none" id="inputAmount" type="number" step="0.01" min="0.01" autofocus class="form-control" name="maximum" placeholder="Insert monthly limit" /> <br />
-
-      <br /><button type="submit" class="btn btn-primary">Save</button>
-        
-      <button type="button" onclick="window.location.href='/expenseCat/show';" class="btn btn-secondary">Cancel</button>        
+    <form action="/expenseCat/edited" id="formProfile" method="post">
+        <input id="catId" name="id" type="hidden" value="{{ cat.id }}">
+            <div class="for-group">
+                <label for="inputName">
+                    Name
+                </label>
+                <input autofocus="" class="form-control" id="inputName" name="name" placeholder="Name" required="" value="{{ cat.name }}"/>
+            </div>
+            <br/>
+            <input id="myCheck" onclick="showLimitInput()" type="checkbox">
+                <label for="myCheck">
+                    Set monthly limit ({{ current_user.currency }})
+                </label>
+                <input autofocus="" class="form-control" id="inputAmount" min="0.01" name="maximum" placeholder="Insert monthly limit" step="0.01" style="display: none" type="number"/>
+                <br/>
+                <br/>
+                <button class="btn btn-primary" type="submit">
+                    Save
+                </button>
+                <button class="btn btn-secondary" onclick="window.location.href='/expenseCat/show';" type="button">
+                    Cancel
+                </button>
+            </input>
+        </input>
     </form>
-    <br />or
-      <p>
-      <a class="btn btn-danger" data-bs-toggle="collapse" href="#collapse" role="button" aria-expanded="false" aria-controls="collapseExample">
-        Delete
-      </a>
+    <br/>
+    or
+    <p>
+        <a aria-controls="collapseExample" aria-expanded="false" class="btn btn-danger" data-bs-toggle="collapse" href="#collapse" role="button">
+            Delete
+        </a>
     </p>
     <div class="collapse" id="collapse">
-      <div class="card card-body">
-        Removal of the category will remove all associated records. Are you sure?
-        <form method="post" action="/expenseCat/delete" id="formSignup">
-        <input type="hidden" id="catId" name="catId" value="{{ cat.id }}">
-        <br /><button type="submit" class="btn btn-danger">Yes, delete category</button>
-        <button type="button" onclick="window.location.href='/expenseCat/show';" class="btn btn-secondary">Cancel</button>   
-        </form>
-      </div>
+        <div class="card card-body">
+            Removal of the category will remove all associated records. Are you sure?
+            <form action="/expenseCat/delete" id="formSignup" method="post">
+                <input id="catId" name="catId" type="hidden" value="{{ cat.id }}">
+                    <br/>
+                    <button class="btn btn-danger" type="submit">
+                        Yes, delete category
+                    </button>
+                    <button class="btn btn-secondary" onclick="window.location.href='/expenseCat/show';" type="button">
+                        Cancel
+                    </button>
+                </input>
+            </form>
+        </div>
     </div>
-
-
-
 </div>
 {% endblock %}

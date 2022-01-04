@@ -60,6 +60,10 @@ class Income extends Authenticated
         $incomesPeroid = $incomeModel-> getPeroid();
         if($incomeModel->getIncomes($incomesPeroid)){
             $incomes['incomes'] = $incomeModel->getIncomes($incomesPeroid);
+            $incomes['incomesTotalSum'] = $incomeModel->getIncomeTotalSum($incomesPeroid);
+            $incomes['incomesSum'] =  $incomeModel->getIncomesSum($incomesPeroid);
+            $incomes['greatestIncome'] = $incomeModel->getGreatestIncome($incomesPeroid);
+            $incomes['numerOfIncomes'] = $incomeModel->getNumerOfIncomes($incomesPeroid);
             View::renderTemplate('Income/show.html', $incomes);
         } else {
             Flash::addMessage('No incomes were found during this period', Flash::WARNING);

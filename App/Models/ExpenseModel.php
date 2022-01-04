@@ -248,6 +248,8 @@ class ExpenseModel extends \Core\Model
     }
 
 
+////////////////////////////////////////////////////////////////////////////////////////////
+
     public static function totalExpenseByCat($expenseCat, $value, $date)
     {
         $user_id = $_SESSION['user_id'];
@@ -284,6 +286,144 @@ class ExpenseModel extends \Core\Model
 
         if($totalExpense) return $totalExpense;
         else return 0;
+    }
+
+
+
+
+      public function getExpenseTotalSum($expensesPeroid)
+    {
+        $sql = 'SELECT 
+                expenses_category_assigned_to_users.name as expense_name,
+                expenses.expense_category_assigned_to_user_id, 
+                sum(expenses.amount) as TotalSum 
+                FROM expenses, expenses_category_assigned_to_users
+                WHERE expenses.user_id = :id 
+                AND expenses.expense_category_assigned_to_user_id = expenses_category_assigned_to_users.id 
+                AND expenses.date_of_expense >= :peroidFor
+                AND expenses.date_of_expense <= :peroidTo
+                group by expenses.expense_category_assigned_to_user_id';
+
+
+        $db = static::getDB(); 
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':id', $_SESSION['user_id'], PDO::PARAM_STR);
+        $stmt->bindValue(':peroidFor', $expensesPeroid['for'], PDO::PARAM_STR);
+        $stmt->bindValue(':peroidTo', $expensesPeroid['to'], PDO::PARAM_STR);
+
+        $stmt->execute();
+
+        if ($stmt->rowCount() > 0){
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } else {
+            return false;
+        }
+
+    }
+
+    public function getExpensesSum($expensesPeroid)
+    {
+                $sql = 'SELECT 
+                sum(expenses.amount) as Sum 
+                FROM expenses
+                WHERE user_id = :id
+                AND date_of_expense >= :peroidFor
+                AND date_of_expense <= :peroidTo';
+
+
+        $db = static::getDB(); 
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':id', $_SESSION['user_id'], PDO::PARAM_STR);
+        $stmt->bindValue(':peroidFor', $expensesPeroid['for'], PDO::PARAM_STR);
+        $stmt->bindValue(':peroidTo', $expensesPeroid['to'], PDO::PARAM_STR);
+
+        $stmt->setFetchMode(PDO::FETCH_CLASS, get_called_class());
+
+        $stmt->execute();
+
+        return $stmt->fetch();
+    }
+
+    public function getGreatestExpense($expensesPeroid)
+    {
+                $sql = 'SELECT MAX(amount) as greatestAmount
+                FROM expenses
+                WHERE user_id = :id
+                AND date_of_expense >= :peroidFor
+                AND date_of_expense <= :peroidTo';
+
+
+        $db = static::getDB(); 
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':id', $_SESSION['user_id'], PDO::PARAM_STR);
+        $stmt->bindValue(':peroidFor', $expensesPeroid['for'], PDO::PARAM_STR);
+        $stmt->bindValue(':peroidTo', $expensesPeroid['to'], PDO::PARAM_STR);
+
+        $stmt->setFetchMode(PDO::FETCH_CLASS, get_called_class());
+
+        $stmt->execute();
+
+        return $stmt->fetch();
+    }
+
+    public function getNumerOfExpenses($expensesPeroid)
+    {
+                $sql = 'SELECT *
+                FROM expenses
+                WHERE user_id = :id
+                AND date_of_expense >= :peroidFor
+                AND date_of_expense <= :peroidTo';
+
+
+        $db = static::getDB(); 
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':id', $_SESSION['user_id'], PDO::PARAM_STR);
+        $stmt->bindValue(':peroidFor', $expensesPeroid['for'], PDO::PARAM_STR);
+        $stmt->bindValue(':peroidTo', $expensesPeroid['to'], PDO::PARAM_STR);
+
+        $stmt->setFetchMode(PDO::FETCH_CLASS, get_called_class());
+
+        $stmt->execute();
+
+        return $stmt->rowCount();
+    }
+
+    public function getAllIncomesSum()
+    {
+                $sql = 'SELECT 
+                sum(incomes.amount) as Sum 
+                FROM incomes
+                WHERE user_id = :id';
+                
+
+        $db = static::getDB(); 
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':id', $_SESSION['user_id'], PDO::PARAM_STR);
+
+        $stmt->setFetchMode(PDO::FETCH_CLASS, get_called_class());
+
+        $stmt->execute();
+
+        return $stmt->fetch();
+    }
+
+
+    public function getAllExpensesSum()
+    {
+                $sql = 'SELECT 
+                sum(expenses.amount) as Sum 
+                FROM expenses
+                WHERE user_id = :id';
+
+        $db = static::getDB(); 
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':id', $_SESSION['user_id'], PDO::PARAM_STR);
+
+        $stmt->setFetchMode(PDO::FETCH_CLASS, get_called_class());
+
+        $stmt->execute();
+
+        return $stmt->fetch();
     }
 
 }

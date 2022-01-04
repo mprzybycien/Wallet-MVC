@@ -60,18 +60,24 @@ class Expense extends Authenticated
         View::renderTemplate('Expense/set.html');
     }
 
+
     public function showAction()
     {
         $expenseModel = new ExpenseModel($_POST);
         $expensesPeroid = $expenseModel-> getPeroid();
         if($expenseModel->getExpenses($expensesPeroid)) {
             $expenses['expenses'] = $expenseModel->getExpenses($expensesPeroid);
+            $expenses['expensesTotalSum'] = $expenseModel->getExpenseTotalSum($expensesPeroid);
+            $expenses['expensesSum'] =  $expenseModel->getExpensesSum($expensesPeroid);
+            $expenses['greatestExpense'] = $expenseModel->getGreatestExpense($expensesPeroid);
+            $expenses['numerOfExpenses'] = $expenseModel->getNumerOfExpenses($expensesPeroid);
             View::renderTemplate('Expense/show.html', $expenses);
         } else {
             Flash::addMessage('No expenses were found during this period', Flash::WARNING);
             View::renderTemplate('Expense/set.html');
         }
     }
+
 
     public function editAction()
     {

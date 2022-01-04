@@ -189,8 +189,7 @@ class User extends \Core\Model
         $stmt->bindValue(':user_id', $this->id, PDO::PARAM_INT);
         $stmt->bindValue(':expires_at', date('Y-m-d H:i:s', $this->expiry_timestamp), PDO::PARAM_STR);
                          
-        return $stmt->execute();
-        
+        return $stmt->execute();  
     }
     
 public static function sendPasswordReset($email)

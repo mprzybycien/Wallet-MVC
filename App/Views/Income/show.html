@@ -3,38 +3,183 @@
 {% block title %}Show incomes{% endblock %}
 
 {% block footer %}
+<script>
+    $(function(){
 
+      var dynamicColors = function() {
+        var r = Math.floor(Math.random() * 255);
+        var g = Math.floor(Math.random() * 255);
+        var b = Math.floor(Math.random() * 255);
+        return "rgb(" + r + "," + g + "," + b + ")";
+    };
+
+    var coloR = [];
+
+    var step;
+    for (step = 0; step < {{ numerOfIncomes }}; step++) {
+        coloR.push(dynamicColors());
+    };
+
+    //get the doughnut chart canvas
+    var ctx1 = $("#doughnut-chartcanvas-1");
+
+    //doughnut chart data
+    var data1 = {
+        labels: [
+        {% for income in incomesTotalSum %}
+        '{{ income.income_name }}'{% if loop.last == 0 %},{% endif %}
+        {% endfor %}
+        ],
+        datasets: [
+        {
+            label: "Incomes",
+            borderWidth: 0,
+            data:[         
+            {% for income in incomesTotalSum %}
+            {{ income.TotalSum }},
+            {% endfor %} ],
+            backgroundColor: coloR
+        }
+        ]
+    };
+
+  //options
+  var options = {
+    responsive: true,
+
+    legend: {
+      display: true,
+      position: "bottom",
+      labels: {
+        fontColor: "grey",
+        fontSize: 14
+    }
+}
+};
+
+  //create Chart class object
+  var chart1 = new Chart(ctx1, {
+    type: "doughnut",
+    data: data1,
+    options: options
+});
+});
+</script>
 {% endblock %}
 
 {% block body %}
-    {% if incomeModel.errors is not empty %}
-    <p> Errors:</p>
-    <ul>
-        {% for error in incomeModel.errors %}
-        <li> {{ error }}</li>
-        {% endfor %}
-    </ul>
-    {% endif %}
+{% if incomeModel.errors is not empty %}
+<p>
+    Errors:
+</p>
+<ul>
+    {% for error in incomeModel.errors %}
+    <li>
+        {{ error }}
+    </li>
+    {% endfor %}
+</ul>
+{% endif %}
 
-    {% if incomes is not empty %}
-    
-    {% for income in incomes %}
-    <div class="addNew addNew-income" onclick="location.href='#';">
-        <div class="cell">
-            <h5>{{ income.incomes_name }}</h5>
-            <h6>{{ income.amount }} {{ current_user.currency }}</h6>
-            <h6>{{ income.date_of_income|date("d-m-Y") }}</h6>
-            <h7>{{ income.income_comment }}</h7>
+{% if incomes is not empty %}
+<p>
+    <button aria-controls="collapseExample" aria-expanded="false" class="btn btn-success" data-bs-target="#collapseExample" data-bs-toggle="collapse" type="button">
+        Show statistics >>
+    </button>
+</p>
+<div class="collapse" id="collapseExample">
+    <div class="card card-body">
+        <div>
+            <div class="doubleContainer">
+                <h4>
+                    You have {{ numerOfIncomes }} transactions in this period
+                </h4>
+                <br/>
+                <h4>
+                    You earn {{ incomesSum.Sum }} {{ current_user.currency }}
+                </h4>
+                <br/>
+                <h4>
+                    The higher one-time income in this period is {{ greatestIncome.greatestAmount }} {{ current_user.currency }}
+                </h4>
+            </div>
+            <div class="doubleContainer">
+                <div class="chart-container">
+                    <div class="doughnut-chart-container">
+                        <canvas id="doughnut-chartcanvas-1">
+                        </canvas>
+                    </div>
+                </div>
+            </div>
         </div>
-        
-        <div class="cellBtn">
-        <form method="post" action="/income/edit" id="formSignup">
-             <input type="hidden" id="incomeId" name="incomeId" value="{{ income.id }}">
-             <br /><button type="submit" class="btn btn-primary">Edit</button>
+    </div>
+</div>
+{% for income in incomes %}
+<div class="addNew addNew-income" onclick="location.href='#';">
+    <div class="cell">
+        <h3>
+            {{ income.incomes_name }}
+        </h3>
+        <h6>
+            {{ income.amount }} {{ current_user.currency }}
+        </h6>
+        <h6>
+            {{ income.date_of_income|date("d-m-Y") }}
+        </h6>
+    </div>
+    <div class="cellBtn">
+        <form action="/income/edit" id="formSignup" method="post">
+            <input id="incomeId" name="incomeId" type="hidden" value="{{ income.id }}">
+                <button class="btn btn-secondary" data-bs-target="#modal{{ income.id }}" data-bs-toggle="modal" type="button">
+                    More
+                </button>
+                <button class="btn btn-primary" type="submit">
+                    Edit
+                </button>
+            </input>
         </form>
+    </div>
+</div>
+<div aria-hidden="true" aria-labelledby="exampleModalLabel" class="modal fade" id="modal{{ income.id }}" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">
+                    Expense details
+                </h5>
+                <button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button">
+                </button>
+            </div>
+            <div class="modal-body">
+                <h6>
+                    Category:
+                </h6>
+                {{ income.incomes_name }}
+                <br/>
+                <br/>
+                <h6>
+                    Amount:
+                </h6>
+                {{ income.amount }} {{ current_user.currency }}
+                <br/>
+                <br/>
+                <h6>
+                    Date:
+                </h6>
+                {{ income.date_of_income|date("d-m-Y") }}
+                <br/>
+                <br/>
+                <h6>
+                    Comment:
+                </h6>
+                {{ income.income_comment }}
+                <br/>
+                <br/>
+            </div>
         </div>
-    </div> 
-	{% endfor %}
+    </div>
+</div>
+{% endfor %}
     {% endif %}
 
 {% endblock %}

@@ -3,35 +3,12 @@
 {% block title %}New expense{% endblock %}
 
 {% block footer %}
-
-<script src="/js/hideShowPassword.min.js"></script>
-<script src="/js/app.js"></script>
-    
-
+<script src="/js/hideShowPassword.min.js">
+</script>
+<script src="/js/app.js">
+</script>
 <script>
-      /*
-        $(document).ready(function() {
-            
-            $('#formSignup').validate({
-                rules: {
-                    amount: {
-                        required: true,
-                        number: true,
-                        remote: '/account/validate-limit'
-                    }
-                    
-                },
-                messages: {
-                    amount: {
-                    remote: 'Monthly limit exceeded'
-                    }
-                }    
-    
-            });
-        });
-*/
-
-const getDataForLimit = () => {
+    const getDataForLimit = () => {
    // const data = document.getElementById('inputCategory').value;
 
     const data = {};
@@ -58,68 +35,77 @@ const getDataForLimit = () => {
         console.error('Error', error);
     });
 }
-
 </script>
-
 {% endblock %}
 
 {% block body %}
-    
-
-    
 <div class="welcome-container">
-    <h1>Add new expense</h1>
+    <h1>
+        Add new expense
+    </h1>
     {% if expenseModel.errors is not empty %}
-    <p> Errors:</p>
+    <p>
+        Errors:
+    </p>
     <ul>
         {% for error in expenseModel.errors %}
-        <li> {{ error }}</li>
+        <li>
+            {{ error }}
+        </li>
         {% endfor %}
     </ul>
     {% endif %}
-
-
-    <form method="post" action="/expense/create" id="formSignup">
-
+    <form action="/expense/create" id="formSignup" method="post">
         <div class="form-group">
-            <label for="inputCategory">Category</label>
-            <select onchange="getDataForLimit()" id="inputCategory" name="category" required class="form-control">
+            <label for="inputCategory">
+                Category
+            </label>
+            <select class="form-control" id="inputCategory" name="category" onchange="getDataForLimit()" required="">
                 {% for expense in expenses %}
-                <option>{{ expense.name }}</option>
+                <option>
+                    {{ expense.name }}
+                </option>
                 {% endfor %}
             </select>
         </div>
-
         <div class="form-group">
-            <label for="amount">Amount ({{ current_user.currency }})</label>
-            <input onchange="getDataForLimit()" id="amount" type="text" autofocus required class="form-control" name="amount" placeholder="Insert expense amount" />
-
+            <label for="amount">
+                Amount ({{ current_user.currency }})
+            </label>
+            <input autofocus="" class="form-control" id="amount" name="amount" onchange="getDataForLimit()" placeholder="Insert expense amount" required="" type="text"/>
         </div>
-
-
         <div class="form-group">
-            <label for="inputMethod">Payment method</label>
-            <select id="inputMethod" name="method" required class="form-control">
+            <label for="inputMethod">
+                Payment method
+            </label>
+            <select class="form-control" id="inputMethod" name="method" required="">
                 {% for method in methods %}
-                <option>{{ method.name }}</option>
+                <option>
+                    {{ method.name }}
+                </option>
                 {% endfor %}
             </select>
         </div>
         <div class="form-group">
-            <label for="inputDate">Date</label>
-            <input onchange="getDataForLimit() "id="inputDate" type="date" value='{{ "now"|date("Y-m-d") }}' required class="form-control" name="date"/>
+            <label for="inputDate">
+                Date
+            </label>
+            <input class="form-control" id="inputDate" name="date" onchange="getDataForLimit() " required="" type="date" value='{{ "now"|date("Y-m-d") }}'/>
         </div>
-
         <div class="form-group">
-            <label for="inputComment">Comment</label>
-            <textarea id="inputComment" name="comment" class="form-control"></textarea>
+            <label for="inputComment">
+                Comment
+            </label>
+            <textarea class="form-control" id="inputComment" name="comment">
+            </textarea>
         </div>
-
-        <br /><div id="response"></div>
-
-        <br /><button type="submit" class="btn btn-primary">Add expense</button>
-
+        <br/>
+        <div id="response">
+        </div>
+        <br/>
+        <button class="btn btn-primary" type="submit">
+            Add expense
+        </button>
     </form>
 </div>
-
 {% endblock %}

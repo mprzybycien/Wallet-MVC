@@ -21,20 +21,17 @@ class Config
      * @var string
      */
     const DB_NAME = '';
-    //const DB_NAME = '';
     /**
      * Database user
      * @var string
      */
     const DB_USER = '';
-    //const DB_USER = '';
 
     /**
      * Database password
      * @var string
      */
     const DB_PASSWORD = '';
-    //const DB_PASSWORD = '';
 
     /**
      * Show or hide error messages on screen
