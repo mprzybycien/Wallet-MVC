@@ -34,6 +34,7 @@
         {
             label: "Incomes",
             borderWidth: 0,
+            borderColor: 'white',
             data:[         
             {% for income in incomesTotalSum %}
             {{ income.TotalSum }},
@@ -48,7 +49,7 @@
     responsive: true,
 
     legend: {
-      display: true,
+      display: false,
       position: "bottom",
       labels: {
         fontColor: "grey",

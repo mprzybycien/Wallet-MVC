@@ -26,10 +26,20 @@
     .then(response => response.json())
     .then(data => {
         console.log('Success', data);
-        if (data) {
+
+
+        if (data.monthlyLimit>0) {
+            document.getElementById('usedLimit').innerHTML = "Used limit: " + data.totalExpense + "/";
+            document.getElementById('limit').innerHTML = data.monthlyLimit + " {{ current_user.currency }}";
+        } else {
+            document.getElementById('usedLimit').innerHTML = "";
+            document.getElementById('limit').innerHTML = "";
+        }
+
+        if (data.limitExceed) {
         document.getElementById('response').innerHTML = "Warning! Monthly limit exceeded";
-    } 
-        else document.getElementById('response').innerHTML = ""
+        } else document.getElementById('response').innerHTML = ""
+
     })
     .catch((error) => {
         console.error('Error', error);
@@ -58,7 +68,7 @@
     <form action="/expense/create" id="formSignup" method="post">
         <div class="form-group">
             <label for="inputCategory">
-                Category
+                <p>Category</p>
             </label>
             <select class="form-control" id="inputCategory" name="category" onchange="getDataForLimit()" required="">
                 {% for expense in expenses %}
@@ -72,8 +82,13 @@
             <label for="amount">
                 Amount ({{ current_user.currency }})
             </label>
-            <input autofocus="" class="form-control" id="amount" name="amount" onchange="getDataForLimit()" placeholder="Insert expense amount" required="" type="text"/>
+            <input autofocus="" class="form-control" id="amount" name="amount" onchange="getDataForLimit()" placeholder="Insert expense amount" required="" type="number"/>
         </div>
+
+        <div id = "usedLimit"></div>
+        <div id = "limit"></div>
+        <br />
+
         <div class="form-group">
             <label for="inputMethod">
                 Payment method
@@ -96,7 +111,7 @@
             <label for="inputComment">
                 Comment
             </label>
-            <textarea class="form-control" id="inputComment" name="comment">
+            <textarea class="form-control" id="inputComment" name="comment" value ="empty">
             </textarea>
         </div>
         <br/>

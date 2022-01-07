@@ -116,22 +116,25 @@ h4 {
 
 
 .alert-success {
-    background-color: #3cff00;
-    color: white;
+    background-color: #212529;
+    font: bolder;
+    color: #3cff00;
     border-radius: 0px;
     border: 0px;
 }
 
 .alert-info {
-    background-color: #00c5ff;
-    color: white;
+    background-color: #212529;
+    color: #1E90FF;
+    font: bolder;
     border-radius: 0px;
     border: 0px;
 }
 
 .alert-warning {
-    background-color: #ff0000;
-    color: white;
+    background-color: #212529;
+    color: #ff0000;
+    font: bolder;
     border-radius: 0px;
     border: 0px;
 }
@@ -153,12 +156,6 @@ input[type=radio] {
     padding-left: 75px;
     padding-top: 10px;
 }
-#response {
-    color:  red;
-    text-align: center;
-    font-size: 16px;
-    bor
-}
 
 .modal-content {
     color: black;
@@ -178,5 +175,50 @@ input[type=radio] {
     float: left;
 }
 
+#response {
+    color:  red;
+    text-align: center;
+    font-size: 16px;
+}
+
+#usedLimit {
+    float: left;
+    text-decoration: underline;
+    color:  white;
+    font-size: 16px;
+
+}
+
+#limit {
+    color:  red;
+    text-decoration: underline;
+    font-size: 16px;
+    float: left;
+}
+
+#homeCellTop{
+    height: 80px;
+    margin-top: 20px;
+    font-size: 20px;
+}
+
+.homeCellMid {
+    height: 40px;
+    weight: 140px;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.homeCellMid-income {
+    color:  #3cff00;
+}
+
+.homeCellMid-expense {
+    color:  #ff0000;
+} 
+
+.homeCellMid-balance {
+    color:  #00c5ff;
+} 
 
 /*https://gist.github.com/evilmarty/3021338*/

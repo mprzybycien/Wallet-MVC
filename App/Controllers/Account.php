@@ -48,8 +48,15 @@ class Account extends \Core\Controller
         if(($monthlyLimit > 0) && ($totalExpense > $monthlyLimit)) $limitExceed = true;
         else $limitExceed = false;
 
+        $arg['totalExpense'] = $totalExpense;
+        $arg['monthlyLimit'] = $monthlyLimit;
+        $arg['limitExceed'] = $limitExceed;
+
+        //var_dump($arg);
+
         header('Content-Type: application/json');
-        echo json_encode($limitExceed);
+
+        echo json_encode($arg);
     }
 
 }

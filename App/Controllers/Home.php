@@ -4,6 +4,8 @@ namespace App\Controllers;
 
 use \Core\View;
 use \App\Auth;
+use \App\Models\ExpenseModel;
+use \App\Models\IncomeModel;
 
 /**
  * Home controller
@@ -20,6 +22,17 @@ class Home extends \Core\Controller
      */
     public function indexAction()
     {
-        View::renderTemplate('Home/index.html');
+        
+        if(isset($_SESSION['user_id'])) {
+        $dates['for'] = date('Y-m-00');
+        $dates['to'] = date("Y-m-t");
+
+        $expensesModel = new ExpenseModel();
+        $incomesModel = new IncomeModel();
+
+        $arg['expenses'] = $expensesModel -> getExpensesSum($dates);
+        $arg['incomes'] = $incomesModel -> getIncomesSum($dates);
+        View::renderTemplate('Home/index.html', $arg);       
+        } else View::renderTemplate('Home/index.html');
     }
 }

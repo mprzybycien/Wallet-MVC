@@ -109,4 +109,49 @@ input[type=radio] {
     float: left;
 }
 
+#response {
+    color:  red;
+    text-align: center;
+    font-size: 16px;
+}
+
+#usedLimit {
+    float: left;
+    text-decoration: underline;
+    font-size: 16px;
+
+}
+
+#limit {
+    color:  red;
+    text-decoration: underline;
+    font-size: 16px;
+    float: left;
+}
+
+#homeCellTop{
+    height: 80px;
+    margin-top: 20px;
+    font-size: 20px;
+}
+
+.homeCellMid {
+    height: 40px;
+    weight: 140px;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.homeCellMid-income {
+    color:  #6ccc78;
+}
+
+.homeCellMid-expense {
+    color:  #eb513f;
+} 
+
+.homeCellMid-balance {
+    color:  #66a0f2;
+} 
+
 /*https://gist.github.com/evilmarty/3021338*/

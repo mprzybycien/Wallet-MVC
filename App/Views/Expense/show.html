@@ -35,6 +35,7 @@
         {
             label: "Expenses",
             borderWidth: 0,
+            borderColor: 'white',
             data:[         
             {% for expense in expensesTotalSum %}
             {{ expense.TotalSum }},
@@ -49,7 +50,7 @@
     responsive: true,
 
     legend: {
-      display: true,
+      display: false,
       position: "bottom",
       labels: {
         fontColor: "grey",

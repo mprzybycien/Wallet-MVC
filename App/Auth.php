@@ -18,7 +18,6 @@ class Auth
             
         $_SESSION['user_id'] = $user->id;
         
-        //////// odcinek 63 - obejrzec jeszcze raz!!!!!!!!!
         
       if ($remember_me) {
 
